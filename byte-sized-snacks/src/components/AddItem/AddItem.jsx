@@ -1,5 +1,7 @@
+"use client";
+
 import React, { useState } from 'react';
-import './AddItem.module.css';
+import './/AddItem.module.css';
 
 const AddItem = ({ addFoodItem }) => {
     const [name, setName] = useState('');
