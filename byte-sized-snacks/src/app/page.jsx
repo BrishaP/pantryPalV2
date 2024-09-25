@@ -34,6 +34,7 @@ const foodItems = [
     name: 'Banana',
     expiryIn: '1',
     quantity: 1,
+    category: 'Produce',
     image: '/images/banana.png',
   },
   {
@@ -41,6 +42,7 @@ const foodItems = [
     name: 'Bread',
     expiryIn: '2',
     quantity: 2,
+    category: 'Bakery',
     image: '/images/bread.webp',
   },
   {
@@ -48,6 +50,7 @@ const foodItems = [
     name: 'Eggs',
     expiryIn: '3',
     quantity: 12,
+    category: 'Dairy',
     image: '/images/eggs.jpeg',
   },
   {
@@ -55,6 +58,7 @@ const foodItems = [
     name: 'Cheese',
     expiryIn: '4',
     quantity: 1,
+    category: 'Dairy',
     image: '/images/cheese.jpg',
   },
   {
@@ -62,6 +66,7 @@ const foodItems = [
     name: 'Yogurt',
     expiryIn: '5',
     quantity: 4,
+    category: 'Dairy',
     image: '/images/yoghurt.png',
   },
   {
@@ -69,6 +74,7 @@ const foodItems = [
     name: 'Apples',
     expiryIn: '5',
     quantity: 6,
+    category: 'Produce',
     image: '/images/apples.png',
   },
   {
@@ -76,6 +82,7 @@ const foodItems = [
     name: 'Chicken',
     expiryIn: '6',
     quantity: 2,
+    category: 'Meat',
     image: '/images/chicken.jpg',
   },
   {
@@ -83,6 +90,7 @@ const foodItems = [
     name: 'Tomatoes',
     expiryIn: '7',
     quantity: 5,
+    category: 'Produce',
     image: '/images/tomato.jpeg',
   },
 ];
@@ -91,6 +99,10 @@ export default function Home() {
   const [selectedFood, setSelectedFood] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('Category');
 
+
+  // NEED TO ADD: If quantity goes to 0, remove from DB
+
+  // Need to ADD: When quantity changes, update DB
   const handleQuantityChange = (change) => {
     if (selectedFood) {
       setSelectedFood({
@@ -132,6 +144,7 @@ export default function Home() {
         <div className="overlay" role="dialog" aria-modal="true">
           <div className="overlayContent">
             <h2>{selectedFood.name}</h2>
+            <h3>{selectedFood.category}</h3>
             <div className="imageContainer">
               <Image
                 src={selectedFood.image}
@@ -160,7 +173,8 @@ export default function Home() {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-            <p>Expiry Date: {selectedFood.expiryDate}</p>
+            <p>Expires In: {selectedFood.expiryIn} day(s)</p>
+            Quantity:
             <div className="quantityControl">
               <Button
                 variant="outline"
@@ -184,7 +198,7 @@ export default function Home() {
               className="closeButton"
               onClick={() => setSelectedFood(null)}
             >
-              Close
+              Save
             </Button>
           </div>
         </div>
