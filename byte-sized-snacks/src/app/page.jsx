@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import ValidatingForm from '../components/Validating/Validating';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -143,9 +144,15 @@ export default function Home( { additem } ) {
       <Hoveradd />
 
       {selectedFood && (
+
+
+
         <div className="overlay" role="dialog" aria-modal="true">
           <div className="overlayContent">
             <h2>{selectedFood.name}</h2>
+
+            <ValidatingForm />
+            
             <h3>{selectedFood.category}</h3>
             <div className="imageContainer">
               <Image
