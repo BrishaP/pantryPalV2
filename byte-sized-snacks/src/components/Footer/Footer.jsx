@@ -15,10 +15,10 @@ const Footer = () => {
     return (
         <footer className={styles.footer}>
             <ul className={styles.footerList}>
-                {pageLinks.map((link, index) => (
-                    <li key={index} className={styles.footerItem}>
+                                        {pageLinks.map((link, index) => (
+                                                         <li key={index} className={styles.footerItem}>
                         <Link href={link.href} className={styles.footerLink}>
-                            {link.image && (
+                                             {link.image && (
                                 <Image
                                     src={link.image}
                                     alt={link.name}
