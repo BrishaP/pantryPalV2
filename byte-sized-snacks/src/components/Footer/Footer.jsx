@@ -17,6 +17,7 @@ const Footer = () => {
       
   ];
 
+
   return (
     <footer className={styles.footer}>
       <ul className= {styles.footerList}>
