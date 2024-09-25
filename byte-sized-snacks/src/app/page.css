@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
 .page {
   --gray-rgb: 0, 0, 0;
   --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
@@ -19,7 +21,7 @@
 .container h1{
   font-size: 1.5rem;
   font-weight: 700;
-  color: #54e072;
+  color: #4CAF50;
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
