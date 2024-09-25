@@ -138,9 +138,7 @@ export default function Home() {
     setNewItem({
       ...newItem,
       [name]: value,
-      [category]: value,
-      [expiry_date]: value,
-      [quantity]: value,
+     
     });
   };
 
@@ -182,10 +180,22 @@ export default function Home() {
         {formOpen && (
           <div className="overlay" role="dialog" aria-modal="true">
             <div className="overlayContent">
-              <form className="productForm" onSubmit={handleSubmit }>
+              <form className="productForm" onSubmit={handleSubmit}>
                 <label>Name:
                   <input type='text' name='name' value={newItem.name} onChange={(e) => {handleChange(e)}} required />
                 </label>
+                <label for="cars">Choose a produce type:</label>
+                <select name="category" id="category">
+                  <option value="meat">Meat</option>
+                  <option value="fish">Fish</option>
+                  <option value="dairy">Dairy</option>
+                  <option value="produce">Produce</option>
+                  <option value="bakery">Baker</option>
+                  <option value="pantry">Pantry</option>
+                  <option value="other">Other</option>
+                </select>
+
+
                 <button type="submit">Enter</button>
                 </form>
               </div>
