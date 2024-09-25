@@ -96,9 +96,9 @@ const foodItems = [
   },
 ];
 
-export default function Home( { additem } ) {
-  const [selectedFood, setSelectedFood] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState('Category');
+export default function Home() {
+  const [selectedFood, setSelectedFood] = useState(foodItems[0]);
+  const [selectedCategory, setSelectedCategory] = useState(selectedFood.category);
 
 
   // NEED TO ADD: If quantity goes to 0, remove from DB
@@ -112,6 +112,14 @@ export default function Home( { additem } ) {
       });
     }
   };
+
+  const handleSubmit = () => {
+
+  }
+
+  const handleChange = () => {
+
+  }
 
   return (
     <div className="container">
@@ -140,68 +148,75 @@ export default function Home( { additem } ) {
           ))}
         </div>
       </ScrollArea>
+
       <Hoveradd />
 
       {selectedFood && (
         <div className="overlay" role="dialog" aria-modal="true">
           <div className="overlayContent">
-            <h2>{selectedFood.name}</h2>
-            <h3>{selectedFood.category}</h3>
-            <div className="imageContainer">
-              <Image
-                src={selectedFood.image}
-                alt={selectedFood.name}
-                width={200}
-                height={200}
-                className="foodImage"
-              />
-            </div>
-            // Dropdown category
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="w-[200px] justify-between">
-                  {selectedCategory}
-                  <ChevronDown className="ml-2 h-4 w-4" />
+            <form className="productForm" onSubmit={handleSubmit}>
+              <label>Name:
+                <input type='text' name='itemName' value={selectedFood.name} onChange={handleChange} required />
+              </label>
+            
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="w-[200px] justify-between">
+                    {selectedCategory}
+                    <ChevronDown className="ml-2 h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-[200px]">
+                  {categories.map((category) => (
+                    <DropdownMenuItem
+                      key={category}
+                      onSelect={() => setSelectedCategory(category)}
+                    >
+                      {category}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <div className="imageContainer">
+                <Image
+                  src={selectedFood.image}
+                  alt={selectedFood.name}
+                  width={200}
+                  height={200}
+                  className="foodImage"
+                />
+              </div>
+              // Dropdown category
+              
+              <p>Expires In: {selectedFood.expiryIn} day(s)</p>
+              Quantity:
+              <div className="quantityControl">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => handleQuantityChange(-1)}
+                  aria-label="Decrease quantity"
+                >
+                  <Minus className="icon" />
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-[200px]">
-                {categories.map((category) => (
-                  <DropdownMenuItem
-                    key={category}
-                    onSelect={() => setSelectedCategory(category)}
-                  >
-                    {category}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <p>Expires In: {selectedFood.expiryIn} day(s)</p>
-            Quantity:
-            <div className="quantityControl">
+                <span className="quantity">{selectedFood.quantity}</span>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => handleQuantityChange(1)}
+                  aria-label="Increase quantity"
+                >
+                  <Plus className="icon" />
+                </Button>
+              </div>
               <Button
-                variant="outline"
-                size="icon"
-                onClick={() => handleQuantityChange(-1)}
-                aria-label="Decrease quantity"
+                className="closeButton"
+                onClick={() => setSelectedFood(null)}
               >
-                <Minus className="icon" />
+                Save
               </Button>
-              <span className="quantity">{selectedFood.quantity}</span>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => handleQuantityChange(1)}
-                aria-label="Increase quantity"
-              >
-                <Plus className="icon" />
-              </Button>
-            </div>
-            <Button
-              className="closeButton"
-              onClick={() => setSelectedFood(null)}
-            >
-              Save
-            </Button>
+            </form>
           </div>
         </div>
       )}

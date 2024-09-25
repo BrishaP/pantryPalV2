@@ -12,7 +12,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: white;
+    background-color: green;
     color: black;
     border: none;
     cursor: pointer;
@@ -25,6 +25,7 @@
 }
   
 .buttonIcon {
-    width: 16px;
-    height: 16px;
+    width: 60px;
+    height: 60px;
+    color: white;
 }
