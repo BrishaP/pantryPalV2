@@ -33,7 +33,7 @@ const foodItems = [
   {
     id: 1,
     name: 'Banana',
-    expiryIn: '1',
+    expiry_date: '2023-12-31',
     quantity: 1,
     category: 'Produce',
     image: '/images/banana.png',
@@ -41,7 +41,7 @@ const foodItems = [
   {
     id: 2,
     name: 'Bread',
-    expiryIn: '2',
+    expiry_date: '2023-12-31',
     quantity: 2,
     category: 'Bakery',
     image: '/images/bread.webp',
@@ -49,7 +49,7 @@ const foodItems = [
   {
     id: 3,
     name: 'Eggs',
-    expiryIn: '3',
+    expiry_date: '2023-12-31',
     quantity: 12,
     category: 'Dairy',
     image: '/images/eggs.jpeg',
@@ -57,7 +57,7 @@ const foodItems = [
   {
     id: 4,
     name: 'Cheese',
-    expiryIn: '4',
+    expiry_date: '2023-12-31',
     quantity: 1,
     category: 'Dairy',
     image: '/images/cheese.jpg',
@@ -65,7 +65,7 @@ const foodItems = [
   {
     id: 5,
     name: 'Yogurt',
-    expiryIn: '5',
+    expiry_date: '2023-12-31',
     quantity: 4,
     category: 'Dairy',
     image: '/images/yoghurt.png',
@@ -73,7 +73,7 @@ const foodItems = [
   {
     id: 6,
     name: 'Apples',
-    expiryIn: '5',
+    expiry_date: '2023-12-31',
     quantity: 6,
     category: 'Produce',
     image: '/images/apples.png',
@@ -81,7 +81,7 @@ const foodItems = [
   {
     id: 7,
     name: 'Chicken',
-    expiryIn: '6',
+    expiry_date: '2023-12-31',
     quantity: 2,
     category: 'Meat',
     image: '/images/chicken.jpg',
@@ -89,7 +89,7 @@ const foodItems = [
   {
     id: 8,
     name: 'Tomatoes',
-    expiryIn: '7',
+    expiry_date: '2023-12-31',
     quantity: 5,
     category: 'Produce',
     image: '/images/tomato.jpeg',
@@ -99,6 +99,13 @@ const foodItems = [
 export default function Home() {
   const [selectedFood, setSelectedFood] = useState(foodItems[0]);
   const [selectedCategory, setSelectedCategory] = useState(selectedFood.category);
+
+  const [formData, setFormData] = useState({
+    name: '',
+    category: '',
+    expiry_date: '',
+    quantity: '',
+  });
 
 
   // NEED TO ADD: If quantity goes to 0, remove from DB
@@ -113,13 +120,18 @@ export default function Home() {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formData)
+  };
 
-  }
-
-  const handleChange = () => {
-
-  }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
 
   return (
     <div className="container">
@@ -142,7 +154,7 @@ export default function Home() {
                   height={200}
                   className="foodImage"
                 />
-                <p>Expires in: {item.expiryIn} day(s)</p>
+                <p>Expires on: {item.expiry_date} </p>
               </CardContent>
             </Card>
           ))}
@@ -186,10 +198,12 @@ export default function Home() {
                   height={200}
                   className="foodImage"
                 />
-              </div>
-              // Dropdown category
-              
-              <p>Expires In: {selectedFood.expiryIn} day(s)</p>
+              </div> 
+
+              <label>Expires On:
+                <input type='text' name='itemExpiry' value={selectedFood.expiry_date} onChange={handleChange} required />
+              </label>
+
               Quantity:
               <div className="quantityControl">
                 <Button
