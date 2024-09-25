@@ -21,15 +21,15 @@ const testDatabase = async () => {
   //   console.error('Error creating item:', error);
   // }
 
-  // Update a specific item by item_id
-  const itemId = "2024-09-25T11:41:26.480225"; // Assuming item_id is the primary key
-  const updatedData = { quantity: 20, name: "Updated Kiwi" }; // Example of fields to update
-  try {
-    const updatedItem = await updateItem(itemId, updatedData);
-    console.log("Updated Item:", updatedItem);
-  } catch (error) {
-    console.error("Error updating item:", error);
-  }
+  // // Update a specific item by item_id
+  // const itemId = "2024-09-25T11:41:26.480225"; // Assuming item_id is the primary key
+  // const updatedData = { quantity: 20, name: "Updated Kiwi" }; // Example of fields to update
+  // try {
+  //   const updatedItem = await updateItem(itemId, updatedData);
+  //   console.log("Updated Item:", updatedItem);
+  // } catch (error) {
+  //   console.error("Error updating item:", error);
+  // }
 
   // Read items
   let items;

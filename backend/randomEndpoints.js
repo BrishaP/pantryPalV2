@@ -1,3 +1,4 @@
+import { supabase } from "./supabase.js";
 export const getItemsByCategory = async (category) => {
   const { data, error } = await supabase
     .from("food_inventory")
