@@ -138,9 +138,18 @@ export default function Home() {
     setNewItem({
       ...newItem,
       [name]: value,
+      [category]: value,
      
     });
   };
+
+  const handleCategoryChange = (value) => {
+    setNewItem({
+      ...newItem,
+      category: value,
+    });
+};
+
 
   return (
     <div className="container">
@@ -185,8 +194,8 @@ export default function Home() {
                   <input type='text' name='name' value={newItem.name} onChange={(e) => {handleChange(e)}} required />
                 </label>
                 <label for="cars">Choose a produce type:</label>
-                <select name="category" id="category">
-                  <option value="meat">Meat</option>
+                <select name="category" id="category" onChange={handleCategoryChange}>
+                  <option value="meat" >Meat</option>
                   <option value="fish">Fish</option>
                   <option value="dairy">Dairy</option>
                   <option value="produce">Produce</option>
