@@ -7,6 +7,7 @@ import AddItem from '../AddItem/AddItem';
 const Main = () => {
   return (
     <main>
+   
         <AddItem />
     </main>
   );

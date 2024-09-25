@@ -10,7 +10,7 @@ import Link from "next/link";
 const Header = () => {
     return (
         <header className = {styles.headerStyle}>
-            <h1 className = {styles.title}>Pantry Pal</h1>
+            <h1 className = {styles.title}>PANTRY PAL</h1>
         </header>
     )
 }

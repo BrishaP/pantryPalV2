@@ -1,3 +1,5 @@
+
+
 import { Poppins } from "next/font/google";
 import React from 'react';
 import localFont from "next/font/local";
@@ -17,7 +19,7 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "SmartFridge.ai",
+  title: "PantryPal.ai",
   description: "Byte sized snacks",
 };
 
@@ -29,11 +31,12 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
+
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Header />
         <main>
-          {children}
+        { children }
         </main>
         <Footer />
       </body>
