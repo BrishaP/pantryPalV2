@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky",
-    "frontend": "cd byte-sized-snacks && npm run prettier",
+    "frontend": "cd byte-sized-snacks && npm run lint && npm run prettier",
     "backend": "cd backend && npm run prettier"
   },
   "keywords": [],
