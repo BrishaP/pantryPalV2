@@ -5,7 +5,7 @@ const testConnection = async () => {
   const { data, error } = await supabase
     .from('food_inventory')
     .select('*')
-    .limit(1);
+    .limit(10);
 
   if (error) {
     console.error('Error connecting to the database:', error);
