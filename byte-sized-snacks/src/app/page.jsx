@@ -146,7 +146,7 @@ export default function Home() {
   const handleCategoryChange = (value) => {
     setNewItem({
       ...newItem,
-      category: value,
+      category: event.target.value,
     });
 };
 
