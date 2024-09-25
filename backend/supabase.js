@@ -21,7 +21,6 @@ export { supabase };
 
 // Function to create an item in the food_inventory table
 export const createItem = async (item) => {
-  // Ensure the item object contains all required fields
   const requiredFields = ['name', 'category', 'stored_location', 'expiry_date', 'quantity'];
   for (const field of requiredFields) {
     if (!item[field]) {
@@ -30,13 +29,9 @@ export const createItem = async (item) => {
     }
   }
 
-  // Insert the item into the food_inventory table
   const { data, error } = await supabase
     .from('food_inventory')
     .insert([item]);
-
-  // Log the entire response for debugging
-  console.log('Supabase response:', { data, error });
 
   if (error) {
     console.error('Error creating item:', error.message, error.details, error.hint);
@@ -57,26 +52,26 @@ export const getItems = async () => {
   return data;
 };
 
-// export const updateItem = async (itemId, updatedData) => {
-//   const { data, error } = await supabase
-//     .from('food_inventory')
-//     .update(updatedData)
-//     .eq('item_id', itemId);
-//   if (error) {
-//     console.error('Error updating item:', error);
-//     return null;
-//   }
-//   return data;
-// };
+export const updateItem = async (itemId, updatedData) => {
+  const { data, error } = await supabase
+    .from('food_inventory')
+    .update(updatedData)
+    .eq('item_id', itemId);
+  if (error) {
+    console.error('Error updating item:', error);
+    return null;
+  }
+  return data;
+};
 
-// export const deleteItem = async (itemId) => {
-//   const { data, error } = await supabase
-//     .from('food_inventory')
-//     .delete()
-//     .eq('item_id', itemId);
-//   if (error) {
-//     console.error('Error deleting item:', error);
-//     return null;
-//   }
-//   return data;
-// };
+export const deleteItem = async (itemId) => {
+  const { data, error } = await supabase
+    .from('food_inventory')
+    .delete()
+    .eq('item_id', itemId);
+  if (error) {
+    console.error('Error deleting item:', error);
+    return null;
+  }
+  return data;
+};
