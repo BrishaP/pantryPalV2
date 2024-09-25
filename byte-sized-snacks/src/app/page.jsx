@@ -104,7 +104,7 @@ export default function Home() {
 
 
 
-  const [formData, setFormData] = useState({
+  const [newItem, setNewItem] = useState({
     name: '',
     category: '',
     expiry_date: '',
@@ -130,14 +130,17 @@ export default function Home() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setFormOpen(false);
-    console.log(formData)
+    console.log(newItem);
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
+    setNewItem({
+      ...newItem,
+      [name]: value,
+      [category]: value,
+      [expiry_date]: value,
+      [quantity]: value,
     });
   };
 
@@ -175,12 +178,13 @@ export default function Home() {
           </Button>
           
         </div>
+
         {formOpen && (
           <div className="overlay" role="dialog" aria-modal="true">
             <div className="overlayContent">
               <form className="productForm" onSubmit={handleSubmit }>
                 <label>Name:
-                  <input type='text' name='itemName' value={formData} onChange={handleChange} required />
+                  <input type='text' name='name' value={newItem.name} onChange={(e) => {handleChange(e)}} required />
                 </label>
                 <button type="submit">Enter</button>
                 </form>
@@ -194,7 +198,7 @@ export default function Home() {
           <div className="overlayContent">
             <form className="productForm" onSubmit={handleSubmit}>
               <label>Name:
-                <input type='text' name='itemName' value={formData} onChange={handleChange} required />
+                <input type='text' name='itemName' value={newItem} onChange={handleChange} required />
               </label>
             
               <DropdownMenu>
