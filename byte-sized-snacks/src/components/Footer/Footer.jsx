@@ -3,22 +3,40 @@
 import React from 'react';
 import Link from 'next/link';
 import styles from './Footer.module.css';
+import Image from "next/image"
+
+
 
 const Footer = () => {
   const pageLinks = [
-    { href: '/', text: '🏚️Home' },
-    { href: '/item', text: '📃Add item' },
-    { href: '/inventory', text: '🍇🍓🍌Inventory' },
-    { href: '/shopping', text: '🛒Shopping' },
+     
+   { href: '/item', text: '', image: '/images/fridge.png' },
+ 
+    { href: '/shopping', text: '', image: '/images/add.png' },
+   
+      
   ];
 
   return (
     <footer className={styles.footer}>
-      <ul>
+      <ul className= {styles.footerList}>
         {pageLinks.map((link, index) => (
-          <li key={index}>
-            <Link href={link.href}>{link.text}</Link>
-            <h1>🍇🍓🍌</h1>
+          <li key={index} className= {styles.footerItem}>
+            <Link href={link.href}>
+              <a className= {styles.footerLink}>
+                {link.image &&
+                  <Image
+                    src={link.image}
+                    alt={link.name}
+                    width={70}
+                    height={70}
+                    className="footerIcon"
+                  />}
+                
+                  
+               </a>
+              {link.icon}</Link>
+           
           </li>
         ))}
       </ul>
