@@ -10,13 +10,13 @@ import "./page.css";
 
 const foodItems = [
   { id: 1, name: "Banana", expiryDate: "2023-09-30", quantity: 1, image: '/images/banana.png' },
-  { id: 2, name: "Bread", expiryDate: "2023-09-25", quantity: 2 },
-  { id: 3, name: "Eggs", expiryDate: "2023-10-05", quantity: 12 },
-  { id: 4, name: "Cheese", expiryDate: "2023-10-15", quantity: 1 },
-  { id: 5, name: "Yogurt", expiryDate: "2023-09-28", quantity: 4 },
-  { id: 6, name: "Apples", expiryDate: "2023-10-10", quantity: 6 },
-  { id: 7, name: "Chicken", expiryDate: "2023-09-26", quantity: 2 },
-  { id: 8, name: "Tomatoes", expiryDate: "2023-09-27", quantity: 5 },
+  { id: 2, name: "Bread", expiryDate: "2023-09-25", quantity: 2, image: '/images/bread.webp' },
+  { id: 3, name: "Eggs", expiryDate: "2023-10-05", quantity: 12, image: '/images/eggs.jpeg' },
+  { id: 4, name: "Cheese", expiryDate: "2023-10-15", quantity: 1, image: '/images/cheese.jpg' },
+  { id: 5, name: "Yogurt", expiryDate: "2023-09-28", quantity: 4, image: '/images/yoghurt.png' },
+  { id: 6, name: "Apples", expiryDate: "2023-10-10", quantity: 6, image: '/images/apples.png' },
+  { id: 7, name: "Chicken", expiryDate: "2023-09-26", quantity: 2, image: '/images/chicken.jpg' },
+  { id: 8, name: "Tomatoes", expiryDate: "2023-09-27", quantity: 5, image: '/images/tomato.jpeg' },
 ]
 
 export default function Home() {
@@ -44,7 +44,14 @@ export default function Home() {
             >
               <CardContent className="foodItemContent">
                 <h2>{item.name}</h2>
-                
+                {/* <p>{item.expiryDate}</p> */}
+                <Image 
+                src={item.image} 
+                alt={item.name} 
+                width={200} 
+                height={200} 
+                className="foodImage"
+              />
                 <p>Expires: {item.expiryDate}</p>
               </CardContent>
             </Card>
