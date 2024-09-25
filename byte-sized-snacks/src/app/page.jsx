@@ -17,7 +17,7 @@ import { Plus, Minus } from 'lucide-react';
 import { ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import './page.css';
-import Hoveradd from '../components/HoverAdd/Hoveradd';
+
 
 const categories = [
   'Meat',
@@ -97,8 +97,12 @@ const foodItems = [
 ];
 
 export default function Home() {
-  const [selectedFood, setSelectedFood] = useState(foodItems[0]);
-  const [selectedCategory, setSelectedCategory] = useState(selectedFood.category);
+  const [selectedFood, setSelectedFood] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const [formOpen, setFormOpen] = useState(false);
+
+
 
   const [formData, setFormData] = useState({
     name: '',
@@ -106,6 +110,9 @@ export default function Home() {
     expiry_date: '',
     quantity: '',
   });
+
+  console.log(formOpen)
+
 
 
   // NEED TO ADD: If quantity goes to 0, remove from DB
@@ -122,6 +129,7 @@ export default function Home() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setFormOpen(false);
     console.log(formData)
   };
 
@@ -161,14 +169,32 @@ export default function Home() {
         </div>
       </ScrollArea>
 
-      <Hoveradd />
+      <div className='hoverButtonWrapper'>
+          <Button className='hoverButton' onClick={() => setFormOpen(true)} >
+            <Plus className='buttonIcon' />
+          </Button>
+          
+        </div>
+        {formOpen && (
+          <div className="overlay" role="dialog" aria-modal="true">
+            <div className="overlayContent">
+              <form className="productForm" onSubmit={handleSubmit }>
+                <label>Name:
+                  <input type='text' name='itemName' value={formData} onChange={handleChange} required />
+                </label>
+                <button type="submit">Enter</button>
+                </form>
+              </div>
+            </div>
+)}
+                
 
       {selectedFood && (
         <div className="overlay" role="dialog" aria-modal="true">
           <div className="overlayContent">
             <form className="productForm" onSubmit={handleSubmit}>
               <label>Name:
-                <input type='text' name='itemName' value={selectedFood.name} onChange={handleChange} required />
+                <input type='text' name='itemName' value={formData} onChange={handleChange} required />
               </label>
             
               <DropdownMenu>
