@@ -17,6 +17,7 @@ import { Plus, Minus } from 'lucide-react';
 import { ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import './page.css';
+import Hoveradd from '../components/HoverAdd/Hoveradd';
 
 const categories = [
   'Meat',
@@ -139,6 +140,7 @@ export default function Home( { additem } ) {
           ))}
         </div>
       </ScrollArea>
+      <Hoveradd />
 
       {selectedFood && (
         <div className="overlay" role="dialog" aria-modal="true">
