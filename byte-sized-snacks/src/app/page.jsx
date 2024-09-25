@@ -95,7 +95,7 @@ const foodItems = [
   },
 ];
 
-export default function Home() {
+export default function Home( { additem } ) {
   const [selectedFood, setSelectedFood] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('Category');
 
