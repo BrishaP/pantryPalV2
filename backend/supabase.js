@@ -20,23 +20,37 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 export { supabase };
 
 // Function to create an item in the food_inventory table
-export const createItem = async (item) => {
-  const requiredFields = ['name', 'category', 'stored_location', 'expiry_date', 'quantity'];
-  for (const field of requiredFields) {
-    if (!item[field]) {
-      console.error(`Missing required field: ${field}`);
-      return null;
-    }
-  }
+// export const createItem = async (item) => {
+//   const requiredFields = ['name', 'category', 'stored_location', 'expiry_date', 'quantity'];
+//   for (const field of requiredFields) {
+//     if (!item[field]) {
+//       console.error(`Missing required field: ${field}`);
+//       return null;
+//     }
+//   }
 
+//   const { data, error } = await supabase
+//     .from('food_inventory')
+//     .insert([item]);
+
+//   if (error) {
+//     console.error('Error creating item:', error.message, error.details, error.hint);
+//     return null;
+//   }
+//   return data;
+// };
+
+export const createItem = async (item) => {
   const { data, error } = await supabase
-    .from('food_inventory')
-    .insert([item]);
+    .from('food_inventory') // Replace with your actual table name
+    .insert([item])
+    .single(); // Ensure it returns a single object
 
   if (error) {
     console.error('Error creating item:', error.message, error.details, error.hint);
     return null;
   }
+
   return data;
 };
 
