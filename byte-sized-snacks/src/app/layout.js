@@ -1,11 +1,9 @@
-
-
 import { Poppins } from "next/font/google";
-import React from 'react';
+import React from "react";
 import localFont from "next/font/local";
 import "./globals.css";
-import Header from '/src/components/Header/Header';
-import Footer from '/src/components/Footer/Footer';
+import Header from "/src/components/Header/Header";
+import Footer from "/src/components/Footer/Footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,13 +29,10 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
-
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Header />
-        <main>
-        { children }
-        </main>
+        <main>{children}</main>
         <Footer />
       </body>
     </html>

@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import React, { useState } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,87 +12,86 @@ import {
   DropdownMenuSeparator,
   DropdownMenuCheckboxItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Plus, Minus } from 'lucide-react';
-import { ChevronDown } from 'lucide-react';
-import Image from 'next/image';
-import './page.css';
-
+} from "@/components/ui/dropdown-menu";
+import { Plus, Minus } from "lucide-react";
+import { ChevronDown } from "lucide-react";
+import Image from "next/image";
+import "./page.css";
 
 const categories = [
-  'Meat',
-  'Fish',
-  'Dairy',
-  'Produce',
-  'Bakery',
-  'Pantry',
-  'Other',
+  "Meat",
+  "Fish",
+  "Dairy",
+  "Produce",
+  "Bakery",
+  "Pantry",
+  "Other",
 ];
 
 const foodItems = [
   {
     id: 1,
-    name: 'Banana',
-    expiry_date: '2023-12-31',
+    name: "Banana",
+    expiry_date: "2023-12-31",
     quantity: 1,
-    category: 'Produce',
-    image: '/images/banana.png',
+    category: "Produce",
+    image: "/images/banana.png",
   },
   {
     id: 2,
-    name: 'Bread',
-    expiry_date: '2023-12-31',
+    name: "Bread",
+    expiry_date: "2023-12-31",
     quantity: 2,
-    category: 'Bakery',
-    image: '/images/bread.webp',
+    category: "Bakery",
+    image: "/images/bread.webp",
   },
   {
     id: 3,
-    name: 'Eggs',
-    expiry_date: '2023-12-31',
+    name: "Eggs",
+    expiry_date: "2023-12-31",
     quantity: 12,
-    category: 'Dairy',
-    image: '/images/eggs.jpeg',
+    category: "Dairy",
+    image: "/images/eggs.jpeg",
   },
   {
     id: 4,
-    name: 'Cheese',
-    expiry_date: '2023-12-31',
+    name: "Cheese",
+    expiry_date: "2023-12-31",
     quantity: 1,
-    category: 'Dairy',
-    image: '/images/cheese.jpg',
+    category: "Dairy",
+    image: "/images/cheese.jpg",
   },
   {
     id: 5,
-    name: 'Yogurt',
-    expiry_date: '2023-12-31',
+    name: "Yogurt",
+    expiry_date: "2023-12-31",
     quantity: 4,
-    category: 'Dairy',
-    image: '/images/yoghurt.png',
+    category: "Dairy",
+    image: "/images/yoghurt.png",
   },
   {
     id: 6,
-    name: 'Apples',
-    expiry_date: '2023-12-31',
+    name: "Apples",
+    expiry_date: "2023-12-31",
     quantity: 6,
-    category: 'Produce',
-    image: '/images/apples.png',
+    category: "Produce",
+    image: "/images/apples.png",
   },
   {
     id: 7,
-    name: 'Chicken',
-    expiry_date: '2023-12-31',
+    name: "Chicken",
+    expiry_date: "2023-12-31",
     quantity: 2,
-    category: 'Meat',
-    image: '/images/chicken.jpg',
+    category: "Meat",
+    image: "/images/chicken.jpg",
   },
   {
     id: 8,
-    name: 'Tomatoes',
-    expiry_date: '2023-12-31',
+    name: "Tomatoes",
+    expiry_date: "2023-12-31",
     quantity: 5,
-    category: 'Produce',
-    image: '/images/tomato.jpeg',
+    category: "Produce",
+    image: "/images/tomato.jpeg",
   },
 ];
 
@@ -102,18 +101,14 @@ export default function Home() {
 
   const [formOpen, setFormOpen] = useState(false);
 
-
-
   const [newItem, setNewItem] = useState({
-    name: '',
-    category: '',
-    expiry_date: '',
-    quantity: '',
+    name: "",
+    category: "",
+    expiry_date: "",
+    quantity: "",
   });
 
-  console.log(formOpen)
-
-
+  console.log(formOpen);
 
   // NEED TO ADD: If quantity goes to 0, remove from DB
 
@@ -139,7 +134,6 @@ export default function Home() {
       ...newItem,
       [name]: value,
       [category]: value,
-     
     });
   };
 
@@ -148,8 +142,7 @@ export default function Home() {
       ...newItem,
       category: event.target.value,
     });
-};
-
+  };
 
   return (
     <div className="container">
@@ -179,50 +172,69 @@ export default function Home() {
         </div>
       </ScrollArea>
 
-      <div className='hoverButtonWrapper'>
-          <Button className='hoverButton' onClick={() => setFormOpen(true)} >
-            <Plus className='buttonIcon' />
-          </Button>
-          
+      <div className="hoverButtonWrapper">
+        <Button className="hoverButton" onClick={() => setFormOpen(true)}>
+          <Plus className="buttonIcon" />
+        </Button>
+      </div>
+
+      {formOpen && (
+        <div className="overlay" role="dialog" aria-modal="true">
+          <div className="overlayContent">
+            <form className="productForm" onSubmit={handleSubmit}>
+              <label>
+                Name:
+                <input
+                  type="text"
+                  name="name"
+                  value={newItem.name}
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
+                  required
+                />
+              </label>
+              <label for="cars">Choose a produce type:</label>
+              <select
+                name="category"
+                id="category"
+                onChange={handleCategoryChange}
+              >
+                <option value="meat">Meat</option>
+                <option value="fish">Fish</option>
+                <option value="dairy">Dairy</option>
+                <option value="produce">Produce</option>
+                <option value="bakery">Baker</option>
+                <option value="pantry">Pantry</option>
+                <option value="other">Other</option>
+              </select>
+
+              <button type="submit">Enter</button>
+            </form>
+          </div>
         </div>
-
-        {formOpen && (
-          <div className="overlay" role="dialog" aria-modal="true">
-            <div className="overlayContent">
-              <form className="productForm" onSubmit={handleSubmit}>
-                <label>Name:
-                  <input type='text' name='name' value={newItem.name} onChange={(e) => {handleChange(e)}} required />
-                </label>
-                <label for="cars">Choose a produce type:</label>
-                <select name="category" id="category" onChange={handleCategoryChange}>
-                  <option value="meat" >Meat</option>
-                  <option value="fish">Fish</option>
-                  <option value="dairy">Dairy</option>
-                  <option value="produce">Produce</option>
-                  <option value="bakery">Baker</option>
-                  <option value="pantry">Pantry</option>
-                  <option value="other">Other</option>
-                </select>
-
-
-                <button type="submit">Enter</button>
-                </form>
-              </div>
-            </div>
-)}
-                
+      )}
 
       {selectedFood && (
         <div className="overlay" role="dialog" aria-modal="true">
           <div className="overlayContent">
             <form className="productForm" onSubmit={handleSubmit}>
-              <label>Name:
-                <input type='text' name='itemName' value={newItem} onChange={handleChange} required />
+              <label>
+                Name:
+                <input
+                  type="text"
+                  name="itemName"
+                  value={newItem}
+                  onChange={handleChange}
+                  required
+                />
               </label>
-            
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="w-[200px] justify-between">
+                  <Button
+                    variant="outline"
+                    className="w-[200px] justify-between"
+                  >
                     {selectedCategory}
                     <ChevronDown className="ml-2 h-4 w-4" />
                   </Button>
@@ -238,7 +250,6 @@ export default function Home() {
                   ))}
                 </DropdownMenuContent>
               </DropdownMenu>
-
               <div className="imageContainer">
                 <Image
                   src={selectedFood.image}
@@ -247,12 +258,17 @@ export default function Home() {
                   height={200}
                   className="foodImage"
                 />
-              </div> 
-
-              <label>Expires On:
-                <input type='text' name='itemExpiry' value={selectedFood.expiry_date} onChange={handleChange} required />
+              </div>
+              <label>
+                Expires On:
+                <input
+                  type="text"
+                  name="itemExpiry"
+                  value={selectedFood.expiry_date}
+                  onChange={handleChange}
+                  required
+                />
               </label>
-
               Quantity:
               <div className="quantityControl">
                 <Button

@@ -1,14 +1,12 @@
 "use client";
 
-import React from 'react';
-import AddItem from '../AddItem/AddItem';
-
+import React from "react";
+import AddItem from "../AddItem/AddItem";
 
 const Main = () => {
   return (
     <main>
-   
-        <AddItem />
+      <AddItem />
     </main>
   );
 };
