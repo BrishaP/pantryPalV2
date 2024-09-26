@@ -173,8 +173,9 @@ export default function Home() {
   const notify = () => toast("Successfully Submitted!");
 
   const onSubmit = async (values, actions) => {
+    console.log("Submitting values:", values);
     try {
-      const response = await fetch("/api/add-food-item", {
+      const response = await fetch("/api/food-items", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -182,8 +183,13 @@ export default function Home() {
         body: JSON.stringify(values),
       });
 
+      console.log("Response status:", response.status);
+      console.log("Response ok:", response.ok);
+
       if (!response.ok) {
-        throw new Error("Failed to add food item");
+        const errorText = await response.text();
+        console.error("Error response:", errorText);
+        throw new Error(`Failed to add food item: ${response.status} ${errorText}`);
       }
 
       const data = await response.json();
