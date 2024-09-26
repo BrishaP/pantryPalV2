@@ -59,8 +59,21 @@ export const createItem = async (item) => {
 };
 
 // Function to get items from the food_inventory table
+// export const getItems = async () => {
+//   const { data, error } = await supabase.from("food_inventory").select("*");
+//   if (error) {
+//     console.error("Error fetching items:", error);
+//     return [];
+//   }
+//   return data;
+// };
+
+//get items in order of expiry date
 export const getItems = async () => {
-  const { data, error } = await supabase.from("food_inventory").select("*");
+  const { data, error } = await supabase
+    .from("food_inventory")
+    .select("*")
+    .order('expiry_date', { ascending: true });
   if (error) {
     console.error("Error fetching items:", error);
     return [];

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -96,52 +96,36 @@ const foodItems = [
 ];
 
 export default function Home() {
-  const [selectedFood, setSelectedFood] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [foodItems, setFoodItems] = useState([]);
 
-  const [formOpen, setFormOpen] = useState(false);
+  useEffect(() => {
+    const fetchFoodItems = async () => {
+      try {
+        const response = await fetch('/api/food-items');
+        if (!response.ok) {
+          throw new Error('Failed to fetch food items');
+        }
+        const data = await response.json();
+        setFoodItems(data);
+      } catch (error) {
+        console.error('Error fetching food items:', error);
+      }
+    };
 
-  const [newItem, setNewItem] = useState({
-    name: "",
-    category: "",
-    expiry_date: "",
-    quantity: "",
-  });
+    fetchFoodItems();
+  }, []);
 
-  console.log(formOpen);
-
-  // NEED TO ADD: If quantity goes to 0, remove from DB
-
-  // Need to ADD: When quantity changes, update DB
-  const handleQuantityChange = (change) => {
-    if (selectedFood) {
-      setSelectedFood({
-        ...selectedFood,
-        quantity: Math.max(0, selectedFood.quantity + change),
-      });
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setFormOpen(false);
-    console.log(newItem);
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewItem({
-      ...newItem,
-      [name]: value,
-      [category]: value,
-    });
-  };
-
-  const handleCategoryChange = (value) => {
-    setNewItem({
-      ...newItem,
-      category: event.target.value,
-    });
+  const getCategoryImage = (category) => {
+    const images = {
+      'Meat': '/images/meat.png',
+      'Fish': '/images/fish.png',
+      'Dairy': '/images/dairy.png',
+      'Produce': '/images/produce.png',
+      'Bakery': '/images/bakery.png',
+      'Pantry': '/images/pantry.png',
+      'Other': '/images/other.png'
+    };
+    return images[category] || images['Other'];
   };
 
   return (
@@ -150,155 +134,23 @@ export default function Home() {
       <ScrollArea className="scrollArea">
         <div className="foodGrid">
           {foodItems.map((item) => (
-            <Card
-              key={item.id}
-              className="foodItem"
-              onClick={() => setSelectedFood(item)}
-            >
+            <Card key={item.item_id} className="foodItem">
               <CardContent className="foodItemContent">
                 <h2>{item.name}</h2>
-                <p>x{item.quantity}</p>
+                <p>Quantity: {item.quantity}</p>
                 <Image
-                  src={item.image}
-                  alt={item.name}
+                  src={getCategoryImage(item.category)}
+                  alt={item.category}
                   width={200}
                   height={200}
                   className="foodImage"
                 />
-                <p>Expires on: {item.expiry_date} </p>
+                <p>Expires on: {new Date(item.expiry_date).toLocaleDateString()}</p>
               </CardContent>
             </Card>
           ))}
         </div>
       </ScrollArea>
-
-      <div className="hoverButtonWrapper">
-        <Button className="hoverButton" onClick={() => setFormOpen(true)}>
-          <Plus className="buttonIcon" />
-        </Button>
-      </div>
-
-      {formOpen && (
-        <div className="overlay" role="dialog" aria-modal="true">
-          <div className="overlayContent">
-            <form className="productForm" onSubmit={handleSubmit}>
-              <label>
-                Name:
-                <input
-                  type="text"
-                  name="name"
-                  value={newItem.name}
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                  required
-                />
-              </label>
-              <label for="cars">Choose a produce type:</label>
-              <select
-                name="category"
-                id="category"
-                onChange={handleCategoryChange}
-              >
-                <option value="meat">Meat</option>
-                <option value="fish">Fish</option>
-                <option value="dairy">Dairy</option>
-                <option value="produce">Produce</option>
-                <option value="bakery">Baker</option>
-                <option value="pantry">Pantry</option>
-                <option value="other">Other</option>
-              </select>
-
-              <button type="submit">Enter</button>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {selectedFood && (
-        <div className="overlay" role="dialog" aria-modal="true">
-          <div className="overlayContent">
-            <form className="productForm" onSubmit={handleSubmit}>
-              <label>
-                Name:
-                <input
-                  type="text"
-                  name="itemName"
-                  value={newItem}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="w-[200px] justify-between"
-                  >
-                    {selectedCategory}
-                    <ChevronDown className="ml-2 h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-[200px]">
-                  {categories.map((category) => (
-                    <DropdownMenuItem
-                      key={category}
-                      onSelect={() => setSelectedCategory(category)}
-                    >
-                      {category}
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-              <div className="imageContainer">
-                <Image
-                  src={selectedFood.image}
-                  alt={selectedFood.name}
-                  width={200}
-                  height={200}
-                  className="foodImage"
-                />
-              </div>
-              <label>
-                Expires On:
-                <input
-                  type="text"
-                  name="itemExpiry"
-                  value={selectedFood.expiry_date}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-              Quantity:
-              <div className="quantityControl">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => handleQuantityChange(-1)}
-                  aria-label="Decrease quantity"
-                >
-                  <Minus className="icon" />
-                </Button>
-                <span className="quantity">{selectedFood.quantity}</span>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => handleQuantityChange(1)}
-                  aria-label="Increase quantity"
-                >
-                  <Plus className="icon" />
-                </Button>
-              </div>
-              <Button
-                className="closeButton"
-                onClick={() => setSelectedFood(null)}
-              >
-                Save
-              </Button>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
