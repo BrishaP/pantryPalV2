@@ -1,44 +1,33 @@
 "use client";
-import React, { useState  } from 'react';
-import { ScrollArea } from '@/components/ui/scroll-area';
 
-
-
-import { Formik, Form, Field } from 'formik';
-
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-
-import { signupSchema } from '../Schema/index';
-import styled from 'styled-components';
-
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-
+import React, { useState, useEffect } from "react";
+import { createClient } from "@supabase/supabase-js";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Formik, Form, Field } from "formik";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { signupSchema } from "../Schema/index";
+import styled from "styled-components";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuCheckboxItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Plus, Minus, X } from 'lucide-react';
-import { ChevronDown } from 'lucide-react';
-import Image from 'next/image';
-import './page.css';
+} from "@/components/ui/dropdown-menu";
+import { Plus, Minus, X } from "lucide-react";
+import { ChevronDown } from "lucide-react";
+import Image from "next/image";
+import "./page.css";
 
-//CROM 
 // Define the styled components
-
 const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 60vh; /* Full viewport height */
-  background-color: #f0f0f0; /* Optional: background color for the page */
+  height: 60vh;
+  background-color: #f0f0f0;
 `;
 
 const StyledForm = styled(Form)`
@@ -91,12 +80,11 @@ const SubmitButton = styled.button`
 `;
 
 const initialValues = {
-    name: "",
-    category: "",
-    expiry_date: "",
-    quantity: "",
-}
-/////
+  name: "",
+  category: "",
+  expiry_date: "",
+  quantity: "",
+};
 
 const categories = [
   "Meat",
@@ -108,112 +96,24 @@ const categories = [
   "Other",
 ];
 
-// {
-//   item_id: '2024-09-25T11:32:44.65905',
-//   name: 'Strawberry',
-//   category: 'Produce',
-//   stored_location: 'Fridge',
-//   expiry_date: '2023-12-31',
-//   quantity: 10,
-//   weight: 1.5,
-//   opened_date: null,
-//   days_valid_after_opening: null,
-//   expiry_notification: true
-// }
-
-const foodItems = [
-  {
-    id: 1,
-
-    name: 'Banana',
-    expiry_date: '2024-10-06',
-    quantity: 1,
-    category: 'Produce',
-    image: '/images/dairy.png',
-  },
-  {
-    id: 2,
-    name: 'Bread',
-    expiry_date: '2024-09-26',
-    quantity: 2,
-    category: 'Bakery',
-    image: '/images/dairy.png',
-  },
-  {
-    id: 3,
-    name: 'Eggs',
-    expiry_date: '2024-10-02',
-    quantity: 12,
-    category: 'Dairy',
-    image: '/images/dairy.png',
-  },
-  {
-    id: 4,
-    name: 'Cheese',
-    expiry_date: '2024-09-30',
-    quantity: 1,
-    category: 'Dairy',
-    image: '/images/dairy.png',
-  },
-  {
-    id: 5,
-    name: 'Yogurt',
-    expiry_date: '2024-09-28',
-    quantity: 4,
-    category: 'Dairy',
-    image: '/images/dairy.png',
-  },
-  {
-    id: 6,
-    name: 'Apples',
-    expiry_date: '2024-10-05',
-    quantity: 6,
-    category: 'Produce',
-    image: '/images/dairy.png',
-  },
-  {
-    id: 7,
-    name: 'Chicken',
-    expiry_date: '2024-09-29',
-    quantity: 2,
-    category: 'Meat',
-    image: '/images/dairy.png',
-  },
-  {
-    id: 8,
-    name: 'Tomatoes',
-    expiry_date: '2024-09-25',
-    quantity: 5,
-    category: 'Produce',
-    image: '/images/dairy.png',
-  },
-];
-
 const getCurrentDate = () => {
   const today = new Date();
   const yyyy = today.getFullYear();
-  const mm = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-  const dd = String(today.getDate()).padStart(2, '0');
+  const mm = String(today.getMonth() + 1).padStart(2, "0");
+  const dd = String(today.getDate()).padStart(2, "0");
   return `${yyyy}-${mm}-${dd}`;
 };
 
 function expiryStatus(expiryDate) {
   const now = new Date();
   const expiry = new Date(expiryDate);
-
-  // Set the time part of both dates to midnight for accurate day comparison
   now.setHours(0, 0, 0, 0);
   expiry.setHours(0, 0, 0, 0);
-
-  // Get the difference in time (milliseconds)
   const timeDifference = expiry - now;
-
-  // Convert the time difference from milliseconds to days
   const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
-  // Helper function to add plural 's' if needed
   function pluralize(days) {
-    return days === 1 ? '' : 's';
+    return days === 1 ? "" : "s";
   }
 
   if (daysDifference < 0) {
@@ -226,55 +126,88 @@ function expiryStatus(expiryDate) {
   }
 }
 
-
 export default function Home() {
+  const [foodItems, setFoodItems] = useState([]);
   const [selectedFood, setSelectedFood] = useState(null);
-  
-  //FOR NEW ITEM
   const [formOpen, setFormOpen] = useState(false);
 
+  useEffect(() => {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    );
 
-  // const [newItem, setNewItem] = useState({
-  //   name: '',
-  //   category: '',
-  //   expiry_date: '',
-  //   quantity: '',
-  // });
+    const fetchFoodItems = async () => {
+      const { data, error } = await supabase
+        .from("food_inventory")
+        .select("*")
+        .order("expiry_date", { ascending: true });
 
-  // const handleSubmit = (e) => {
-  //       // Fire POST API call with details in newItem
-  //   e.preventDefault();
-  //   setFormOpen(false);
-  //   console.log(newItem);
-  // };
+      if (error) {
+        console.error("Error fetching food items:", error);
+      } else {
+        console.log("Fetched food items:", data); // Log the fetched data
+        setFoodItems(data);
+      }
+    };
+
+    fetchFoodItems();
+
+    const subscription = supabase
+      .channel("food_inventory_changes")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "food_inventory" },
+        (payload) => {
+          console.log("Change received!", payload);
+          fetchFoodItems();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
   const notify = () => toast("Successfully Submitted!");
 
-  const onSubmit=(values, actions) => {
-    console.log(values);
-    actions.resetForm();
-    notify();
-  }
+  const onSubmit = async (values, actions) => {
+    console.log("Submitting values:", values);
+    try {
+      const response = await fetch("/api/food-items", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
 
-  
-  // const handleCategoryChange = (value) => {
-  //   setNewItem({
-  //     ...newItem,
-  //     category: event.target.value,
-  //   });
-  // };
+      console.log("Response status:", response.status);
+      console.log("Response ok:", response.ok);
 
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error response:", errorText);
+        throw new Error(`Failed to add food item: ${response.status} ${errorText}`);
+      }
 
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setNewItem({
-  //     ...newItem,
-  //     [name]: value,
-  //     [category]: value,
-  //   });
-  // };
+      const data = await response.json();
+      console.log("Food item added:", data);
 
-  // FOR EDIT CURRENT ITEM
+      // Update the food items state to include the new item and sort by expiry_date
+      setFoodItems((prevItems) => {
+        const updatedItems = [...prevItems, ...data];
+        return updatedItems.sort((a, b) => new Date(a.expiry_date) - new Date(b.expiry_date));
+      });
+
+      actions.resetForm();
+      notify();
+    } catch (error) {
+      console.error("Error adding food item:", error);
+    }
+  };
+
   const handleQuantityChange = (change, e) => {
     if (e) e.preventDefault();
     if (selectedFood) {
@@ -286,9 +219,8 @@ export default function Home() {
   };
 
   const handleEditSubmit = (e) => {
-    // Fire edit API call with details in selectedFood
     e.preventDefault();
-    console.log('handleEditSubmit');
+    console.log("handleEditSubmit");
     setSelectedFood(null);
   };
 
@@ -297,12 +229,21 @@ export default function Home() {
     setSelectedFood({
       ...selectedFood,
       [name]: value,
-
     });
   };
 
-  
-
+  const getCategoryImage = (category) => {
+    const images = {
+      Meat: "/images/meat.png",
+      Fish: "/images/fish.png",
+      Dairy: "/images/dairy.png",
+      Produce: "/images/produce.png",
+      Bakery: "/images/bakery.png",
+      Pantry: "/images/pantry.png",
+      Other: "/images/other.png",
+    };
+    return images[category] || images["Other"];
+  };
 
   return (
     <div className="container">
@@ -311,7 +252,7 @@ export default function Home() {
         <div className="foodGrid">
           {foodItems.map((item) => (
             <Card
-              key={item.id}
+              key={item.item_id}
               className="foodItem"
               onClick={() => setSelectedFood(item)}
             >
@@ -319,13 +260,13 @@ export default function Home() {
                 <h2>{item.name}</h2>
                 <p>x{item.quantity}</p>
                 <Image
-                  src={item.image}
-                  alt={item.name}
+                  src={getCategoryImage(item.category)}
+                  alt={item.category}
                   width={200}
                   height={200}
                   className="foodImage"
                 />
-                <p> {expiryStatus(item.expiry_date)}</p>
+                <p>{expiryStatus(item.expiry_date)}</p>
               </CardContent>
             </Card>
           ))}
@@ -339,18 +280,15 @@ export default function Home() {
       </div>
 
       {formOpen && (
-
-
         <div className="overlay" role="dialog" aria-modal="true">
           <div className="overlayContent">
-
-
-        <Container>
-            <Formik initialValues={initialValues} validationSchema={signupSchema} onSubmit={onSubmit}>
-
-
+            <Container>
+              <Formik
+                initialValues={initialValues}
+                validationSchema={signupSchema}
+                onSubmit={onSubmit}
+              >
                 {({ errors, touched }) => (
-                  
                   <StyledForm>
                         
                       <X onClick={() => setFormOpen(false)} />
@@ -439,14 +377,12 @@ export default function Home() {
       {selectedFood && (
         <div className="overlay" role="dialog" aria-modal="true">
           <div className="overlayContent">
-
             <form className="productForm" onSubmit={handleEditSubmit}>
-            <X onClick={() => setSelectedFood(null)} />
-
+              <X onClick={() => setSelectedFood(null)} />
               <label>
                 Name:
                 <input
-                className="input"
+                  className="input"
                   type="text"
                   name="name"
                   value={selectedFood.name}
@@ -462,9 +398,7 @@ export default function Home() {
                     variant="outline"
                     className="w-[200px] justify-between"
                   >
-
                     {selectedFood.category}
-
                     <ChevronDown className="ml-2 h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -498,7 +432,6 @@ export default function Home() {
                 Expires On:
                 <input
                   type="text"
-
                   name="expiry_date"
                   value={selectedFood.expiry_date}
                   onChange={(e) => {
@@ -507,7 +440,6 @@ export default function Home() {
                   required
                 />
               </label>
-              
 
               Quantity:
               <div className="quantityControl">
