@@ -453,9 +453,12 @@ export default function Home() {
         <div className="overlay" role="dialog" aria-modal="true">
           <div className="overlayContent">
             <form className="productForm" onSubmit={handleEditSubmit}>
+            <X onClick={() => setSelectedFood(null)} />
+
               <label>
                 Name:
                 <input
+                className="input"
                   type="text"
                   name="name"
                   value={selectedFood.name}
@@ -513,6 +516,7 @@ export default function Home() {
                   required
                 />
               </label>
+              
               Quantity:
               <div className="quantityControl">
                 <Button

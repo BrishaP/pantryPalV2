@@ -275,7 +275,7 @@ h1 {
 
 
 .hoverButtonWrapper {
-  position: absolute;
+  position: fixed;
   right: 16px;
   top: 50%;
   transform: translateY(-50%);
@@ -353,4 +353,10 @@ input[type="password"] {
 .form_error {
   font-size: 14px;
   color: red;
+}
+
+input{
+  
+  margin-left:0.3rem;
+  border: 1px solid #666666;
 }
