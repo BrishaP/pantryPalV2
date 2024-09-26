@@ -290,67 +290,86 @@ export default function Home() {
               >
                 {({ errors, touched }) => (
                   <StyledForm>
-                    <X onClick={() => setFormOpen(false)} />
-                    <StyledTitle>Add Product</StyledTitle>
+                        
+                      <X onClick={() => setFormOpen(false)} />
+                      <StyledTitle>Add Product</StyledTitle>
 
-                    <StyledLabel htmlFor="name">Name:</StyledLabel>
-                    <Field
-                      type="text"
-                      id="name"
-                      name="name"
-                      placeholder="Enter product name"
-                    />
-                    <ErrorContainer>
-                      {touched.name && errors.name && (
-                        <p className="form_error">{errors.name}</p>
-                      )}
-                    </ErrorContainer>
+                        {/* item name entry and error message */}
+                        <StyledLabel htmlFor="name">Name:</StyledLabel>
+                        <Field type="text" id="name" name="name" placeholder="Enter product name" />
+            
+                        <ErrorContainer>
+                        {touched.name && errors.name && (
+                            <p className="form_error">{errors.name}</p>)}
+                        </ErrorContainer>
+                    
 
-                    <StyledLabel htmlFor="name">Quantity:</StyledLabel>
-                    <StyledField
-                      type="number"
-                      id="quantity"
-                      name="quantity"
-                      placeholder="Enter quantity"
-                    />
-                    <ErrorContainer>
-                      {touched.quantity && errors.quantity && (
-                        <p className="form_error">{errors.quantity}</p>
-                      )}
-                    </ErrorContainer>
+                        {/* item quantity and error message */}
+                        <StyledLabel htmlFor="name">Quantity:</StyledLabel>
+                        <StyledField type="number" id="quantity" name="quantity" placeholder="Enter quantity" />
+            
+                        <ErrorContainer>
+                            {touched.quantity && errors.quantity && (
+                            <p className="form_error">{errors.quantity}</p>
+                            )}
+                        </ErrorContainer>
 
-                    <StyledLabel htmlFor="category">Category:</StyledLabel>
-                    <StyledField
-                      type="text"
-                      id="category"
-                      name="category"
-                      placeholder="Enter a category"
-                    />
-                    <ErrorContainer>
-                      {touched.category && errors.category && (
-                        <p className="form_error">{errors.category}</p>
-                      )}
-                    </ErrorContainer>
 
-                    <StyledLabel htmlFor="expiry_date">Expiry Date:</StyledLabel>
-                    <StyledField
-                      type="date"
-                      id="expiry_date"
-                      name="expiry_date"
-                      min={getCurrentDate()}
-                    />
-                    <ErrorContainer>
-                      {touched.expiry_date && errors.expiry_date && (
-                        <p className="form_error">{errors.expiry_date}</p>
-                      )}
-                    </ErrorContainer>
+                        {/* item CATEGORY and error message */}
+            
+          
+                        <StyledLabel htmlFor="category">Select a category:</StyledLabel>
+                        
+                    {/* <StyledCategoryInput> */}
+                        <Field as="select" name="category" id="category" style={{ display: "block" }}>
+                        <option value="" label="Select a category">Select a category</option>
+                        <option value="fruits" label="Fruits">Fruits</option>
+                        <option value="vegetables" label="Vegetables">Vegetables</option>
+                        <option value="dairy" label="Dairy">Dairy</option>
+                        <option value="meat" label="Meat">Meat</option>
+                        <option value="baking" label="Baking">Baking</option>
+                        <option value="snacks" label="Snacks">Snacks</option>
+                        <option value="other" label="Other">Other</option>
+                        </Field>
+                    {/* </StyledCategoryInput> */}
 
-                    <SubmitButton type="submit">Submit</SubmitButton>
-                    <ToastContainer />
-                  </StyledForm>
+                        <ErrorContainer>
+                        {touched.category && errors.category && <p className="form_error">{errors.category}</p>}
+                        </ErrorContainer>
+
+
+                        {/* item expiry date and error message */}
+                        <StyledLabel htmlFor="expiry_date">Expiry Date:</StyledLabel>
+                        <StyledField type="date" id="expiry_date" name="expiry_date" min={getCurrentDate()} />
+                        
+                        <ErrorContainer>
+                        {touched.expiry_date && errors.expiry_date && (
+                            <p className="form_error">{errors.expiry_date}</p>)}
+                        </ErrorContainer>
+
+
+
+
+                        <SubmitButton type="submit">
+                            Submit
+                        </SubmitButton>
+                        
+                          <div className="toastcontainer"><ToastContainer /></div>
+                        
+        
+                
+                    </StyledForm>
                 )}
-              </Formik>
-            </Container>
+            </Formik>
+                
+        </Container>
+
+            
+
+
+
+
+
           </div>
         </div>
       )}
