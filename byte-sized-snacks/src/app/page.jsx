@@ -99,20 +99,39 @@ export default function Home() {
   const [foodItems, setFoodItems] = useState([]);
 
   useEffect(() => {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    );
+
     const fetchFoodItems = async () => {
-      try {
-        const response = await fetch("/api/food-items");
-        if (!response.ok) {
-          throw new Error("Failed to fetch food items");
-        }
-        const data = await response.json();
+      const { data, error } = await supabase
+        .from('food_inventory')
+        .select('*')
+        .order('expiry_date', { ascending: true });
+      
+      if (error) {
+        console.error('Error fetching food items:', error);
+      } else {
         setFoodItems(data);
-      } catch (error) {
-        console.error("Error fetching food items:", error);
       }
     };
 
     fetchFoodItems();
+
+    
+
+    const subscription = supabase
+      .channel('food_inventory_changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'food_inventory' }, (payload) => {
+        console.log('Change received!', payload);
+        fetchFoodItems();
+      })
+      .subscribe();
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   const getCategoryImage = (category) => {
