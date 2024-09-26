@@ -2,9 +2,11 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCarrot, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { faCarrot, faCirclePlus, faKitchenSet, faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
+import fridge from './../../../public/images/fridge.png';
 
 const FooterContainer = styled.div`
   display: flex;
@@ -13,6 +15,9 @@ const FooterContainer = styled.div`
   padding: 10px;
   background-color: #f8f9fa;
   border-top: 1px solid #e9ecef;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 `;
 
 const StyledCarrotIcon = styled(FontAwesomeIcon)`
@@ -25,6 +30,19 @@ const StyledCirclePlusIcon = styled(FontAwesomeIcon)`
   font-size: 70px;
 `;
 
+const StyledKitchenSetIcon = styled(FontAwesomeIcon)`
+  color: blue;
+  font-size: 70px;
+
+`;
+
+const StyledCartShopping = styled(FontAwesomeIcon)`
+  color: gold;
+  font-size: 70px;
+
+`;
+
+
 const FooterTwo = () => {
 
   const handleClick = (event) => {
@@ -34,10 +52,20 @@ const FooterTwo = () => {
 
   return (
     <FooterContainer>
-      <Link href="/ListPages" onClick={handleClick} title="Feature coming soon">
-        <StyledCarrotIcon icon={faCarrot} />
+
+     <Link href="/ListPages" onClick={handleClick} title="Recipe Feature coming soon">
+       <StyledKitchenSetIcon icon={faKitchenSet} />
       </Link>
-      <Link href="/AddItem" onClick={handleClick} title="Feature coming soon">
+  
+
+
+      <Link href="/ListPages" onClick={handleClick} title="Shopping Feature coming soon">
+     
+        <StyledCartShopping icon={faCartShopping} />
+        {/* <StyledCarrotIcon icon={faCarrot} /> */}
+      </Link>
+
+      <Link href="/AddItem" onClick={handleClick} title="Stock Feature coming soon">
         <StyledCirclePlusIcon icon={faCirclePlus} />
       </Link>
     </FooterContainer>
