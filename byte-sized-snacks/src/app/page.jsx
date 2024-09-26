@@ -186,6 +186,14 @@ const foodItems = [
   },
 ];
 
+const getCurrentDate = () => {
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+  const dd = String(today.getDate()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd}`;
+};
+
 export default function Home() {
   const [selectedFood, setSelectedFood] = useState(null);
   
@@ -347,7 +355,7 @@ export default function Home() {
 
                         {/* item expiry date and error message */}
                         <StyledLabel htmlFor="expiry_date">Expiry Date:</StyledLabel>
-                        <StyledField type="date" id="expiry_date" name="expiry_date" />
+                        <StyledField type="date" id="expiry_date" name="expiry_date" min={getCurrentDate()} />
                         
                         <ErrorContainer>
                         {touched.expiry_date && errors.expiry_date && (
