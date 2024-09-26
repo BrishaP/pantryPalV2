@@ -369,6 +369,6 @@ input{
   border: 1px solid #666666;
 }
 
-.expiring-soon {
-  color: red;
+.foodItemContent .expiring-soon {
+  color: red !important;
 }
