@@ -218,10 +218,39 @@ export default function Home() {
     }
   };
 
-  const handleEditSubmit = (e) => {
+  const handleEditSubmit = async (e) => {
     e.preventDefault();
     console.log("handleEditSubmit");
-    setSelectedFood(null);
+  
+    if (!selectedFood) return;
+  
+    try {
+      const response = await fetch('/api/food-items', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          item_id: selectedFood.item_id,
+          name: selectedFood.name,
+          category: selectedFood.category,
+          expiry_date: selectedFood.expiry_date,
+          quantity: selectedFood.quantity,
+        }),
+      });
+  
+      const result = await response.json();
+  
+      if (response.ok) {
+        console.log(result.message);
+        setSelectedFood(null);
+        // Optionally, refresh the food items list here
+      } else {
+        console.error("Failed to update food item", result.error);
+      }
+    } catch (error) {
+      console.error("Error updating food item:", error);
+    }
   };
 
   const handleDelete = async () => {

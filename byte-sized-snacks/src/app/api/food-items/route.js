@@ -68,3 +68,26 @@ export async function DELETE(request) {
     );
   }
 }
+
+export async function PUT(request) {
+  console.log("PUT request received");
+  try {
+    const { item_id, name, category, expiry_date, quantity } = await request.json();
+    console.log("Updating item with id:", item_id);
+
+    const { data, error } = await supabase
+      .from("food_inventory")
+      .update({ name, category, expiry_date, quantity })
+      .eq("item_id", item_id);
+
+    if (error) throw error;
+    console.log("Item updated successfully");
+    return NextResponse.json({ message: "Item updated successfully" });
+  } catch (error) {
+    console.error("Error updating food item:", error);
+    return NextResponse.json(
+      { error: "Failed to update food item" },
+      { status: 500 }
+    );
+  }
+}
