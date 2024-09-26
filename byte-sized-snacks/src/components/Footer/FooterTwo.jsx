@@ -26,12 +26,18 @@ const StyledCirclePlusIcon = styled(FontAwesomeIcon)`
 `;
 
 const FooterTwo = () => {
+
+  const handleClick = (event) => {
+    event.preventDefault();
+    console.log('Link clicked!');
+  };
+
   return (
     <FooterContainer>
-      <Link href="/ListPages">
+      <Link href="/ListPages" onClick={handleClick} title="Feature coming soon">
         <StyledCarrotIcon icon={faCarrot} />
       </Link>
-      <Link href="/AddItem">
+      <Link href="/AddItem" onClick={handleClick} title="Feature coming soon">
         <StyledCirclePlusIcon icon={faCirclePlus} />
       </Link>
     </FooterContainer>
