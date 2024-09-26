@@ -146,6 +146,7 @@ export default function Home() {
       if (error) {
         console.error("Error fetching food items:", error);
       } else {
+        console.log("Fetched food items:", data); // Log the fetched data
         setFoodItems(data);
       }
     };
