@@ -1,13 +1,15 @@
 "use client";
 
 import React from 'react';
+import ReactDOM from 'react-dom'
 import Link from 'next/link';
 import styles from './Footer.module.css';
-import Image from "next/image"
-
+import Image from "next/image";
 
 
 const Footer = () => {
+
+ 
   const pageLinks = [
      
    { href: '/item', text: '', image: '/images/fridge.png' },

@@ -4,7 +4,8 @@ import React, { useState } from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import ValidatingForm from '../components/Validating/Validating';
+
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -117,6 +118,7 @@ export default function Home( { additem } ) {
   return (
     <div className="container">
       <h1>Food Expiry Tracker</h1>
+
       <ScrollArea className="scrollArea">
         <div className="foodGrid">
           {foodItems.map((item) => (
@@ -140,6 +142,10 @@ export default function Home( { additem } ) {
             </Card>
           ))}
         </div>
+
+        <div>
+         
+        </div>
       </ScrollArea>
       <Hoveradd />
 
@@ -151,7 +157,8 @@ export default function Home( { additem } ) {
           <div className="overlayContent">
             <h2>{selectedFood.name}</h2>
 
-            <ValidatingForm />
+     
+            
             
             <h3>{selectedFood.category}</h3>
             <div className="imageContainer">
@@ -212,6 +219,7 @@ export default function Home( { additem } ) {
           </div>
         </div>
       )}
+
     </div>
   );
 }

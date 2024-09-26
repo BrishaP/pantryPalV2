@@ -1,69 +1,69 @@
-import React from 'react';
+// import React from 'react';
 
-import { Formik, Form, Field } from 'formik';
+// import { Formik, Form, Field } from 'formik';
 
-import { signupSchema } from './../../Schema/index';
+// import { signupSchema } from './../../Schema/index';
 
-const initialValues = {
-    name: "",
-    category: "",
-    expiry_date: "",
-    quantity: "",
+// const initialValues = {
+//     name: "",
+//     category: "",
+//     expiry_date: "",
+//     quantity: "",
 
-}
+// }
 
-const App = () => {
+// const App = () => {
 
 
-    const onSubmit=(values, actions) => {
-        console.log(values);
-        actions.resetForm();
+//     const onSubmit=(values, actions) => {
+//         console.log(values);
+//         actions.resetForm();
     
-    }
+//     }
 
 
 
-    return (
-        <div className="app">
-            <Formik initialValues={initialValues} validationSchema={signupSchema} onSubmit={onSubmit}>
+//     return (
+//         <div className="app">
+//             <Formik initialValues={initialValues} validationSchema={signupSchema} onSubmit={onSubmit}>
 
 
-                {({ errors, touched }) => (
+//                 {({ errors, touched }) => (
             
-                    <Form className="signUpForm">
+//                     <Form className="signUpForm">
             
-                        <label htmlFor="name">Name:</label>
-                        <Field type="text" id="name" name="name" placeholder="Enter your name" />
+//                         <label htmlFor="name">Name:</label>
+//                         <Field type="text" id="name" name="name" placeholder="Enter your name" />
             
-                        <div className="error_container">
-                        {touched.name && errors.name && (
-                            <p className="form_error">{errors.name}</p>)}
-                        </div>
+//                         <div className="error_container">
+//                         {touched.name && errors.name && (
+//                             <p className="form_error">{errors.name}</p>)}
+//                         </div>
                     
 
 
-                        <label htmlFor="name">Quantity:</label>
-                        <Field type="number" id="quantity" name="quantity" placeholder="Enter quantity" />
+//                         <label htmlFor="name">Quantity:</label>
+//                         <Field type="number" id="quantity" name="quantity" placeholder="Enter quantity" />
             
-                        <div className="error_container">
-                            {touched.quantity && errors.quantity && (
-                            <p className="form_error">{errors.quantity}</p>
-                            )}
-                        </div>
+//                         <div className="error_container">
+//                             {touched.quantity && errors.quantity && (
+//                             <p className="form_error">{errors.quantity}</p>
+//                             )}
+//                         </div>
 
 
-                        <button type="submit">
-                            Submit
-                        </button>
+//                         <button type="submit">
+//                             Submit
+//                         </button>
             
                 
         
-                    </Form>
+//                     </Form>
 
-                )}
-            </Formik>
-        </div>
-    );
-};
+//                 )}
+//             </Formik>
+//         </div>
+//     );
+// };
 
-export default App;
+// export default App;
