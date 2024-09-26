@@ -5,6 +5,10 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 
 import { Formik, Form, Field } from 'formik';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 import { signupSchema } from '../Schema/index';
 import styled from 'styled-components';
 
@@ -202,9 +206,12 @@ export default function Home() {
   //   console.log(newItem);
   // };
 
+  const notify = () => toast("Successfully Submitted!");
+
   const onSubmit=(values, actions) => {
     console.log(values);
     actions.resetForm();
+    notify();
   }
 
   
@@ -249,6 +256,8 @@ export default function Home() {
       [name]: value,
     });
   };
+
+  
 
 
   return (
@@ -352,7 +361,7 @@ export default function Home() {
                             Submit
                         </SubmitButton>
             
-                
+                        <ToastContainer />
         
                 
                     </StyledForm>
