@@ -45,27 +45,46 @@ export async function GET() {
 //   }
 // }
 
-export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    const { name, category, expiry_date, quantity } = req.body;
+// export default async function handler(req, res) {
+//   if (req.method === 'POST') {
+//     const { name, category, expiry_date, quantity } = req.body;
 
-    // Validate the input
-    if (!name || !category || !expiry_date || !quantity) {
-      return res.status(400).json({ error: 'Missing required fields' });
-    }
+//     // Validate the input
+//     if (!name || !category || !expiry_date || !quantity) {
+//       return res.status(400).json({ error: 'Missing required fields' });
+//     }
 
-    // Insert the new food item into the database
-    const { data, error } = await supabase
-      .from('food_inventory')
-      .insert([{ name, category, expiry_date, quantity }]);
+//     // Insert the new food item into the database
+//     const { data, error } = await supabase
+//       .from('food_inventory')
+//       .insert([{ name, category, expiry_date, quantity }]);
 
-    if (error) {
-      console.error('Error inserting food item:', error);
-      return res.status(500).json({ error: 'Failed to add food item' });
-    }
+//     if (error) {
+//       console.error('Error inserting food item:', error);
+//       return res.status(500).json({ error: 'Failed to add food item' });
+//     }
 
-    res.status(200).json(data);
-  } else {
-    res.status(405).json({ error: 'Method not allowed' });
+//     res.status(200).json(data);
+//   } else {
+//     res.status(405).json({ error: 'Method not allowed' });
+//   }
+// }
+
+export const createItem = async (item) => {
+  const { data, error } = await supabase
+    .from("food_inventory") // Replace with your actual table name
+    .insert([item])
+    .single(); // Ensure it returns a single object
+
+  if (error) {
+    console.error(
+      "Error creating item:",
+      error.message,
+      error.details,
+      error.hint,
+    );
+    return null;
   }
-}
+
+  return data;
+};
