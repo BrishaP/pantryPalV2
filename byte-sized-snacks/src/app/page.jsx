@@ -242,7 +242,9 @@ export default function Home() {
       pantry: "/images/pantry.png",
       other: "/images/other.png",
     };
-    return images[category] || images["Other"];
+
+    console.log(category);
+    return images[category] || images["other"];
   };
 
   return (
