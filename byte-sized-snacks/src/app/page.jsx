@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { createClient } from '@supabase/supabase-js';  
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -101,17 +102,17 @@ export default function Home() {
   useEffect(() => {
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     );
 
     const fetchFoodItems = async () => {
       const { data, error } = await supabase
-        .from('food_inventory')
-        .select('*')
-        .order('expiry_date', { ascending: true });
-      
+        .from("food_inventory")
+        .select("*")
+        .order("expiry_date", { ascending: true });
+
       if (error) {
-        console.error('Error fetching food items:', error);
+        console.error("Error fetching food items:", error);
       } else {
         setFoodItems(data);
       }
@@ -119,14 +120,16 @@ export default function Home() {
 
     fetchFoodItems();
 
-    
-
     const subscription = supabase
-      .channel('food_inventory_changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'food_inventory' }, (payload) => {
-        console.log('Change received!', payload);
-        fetchFoodItems();
-      })
+      .channel("food_inventory_changes")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "food_inventory" },
+        (payload) => {
+          console.log("Change received!", payload);
+          fetchFoodItems();
+        },
+      )
       .subscribe();
 
     return () => {
