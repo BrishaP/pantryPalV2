@@ -18,6 +18,10 @@
   font-family: var(--font-geist);
 }
 
+.toastcontainer {
+  z-index: 2000;
+}
+
 .container h1 {
   font-size: 1.5rem;
   font-weight: 700;
