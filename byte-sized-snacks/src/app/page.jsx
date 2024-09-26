@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -288,7 +286,7 @@ export default function Home() {
                 validationSchema={signupSchema}
                 onSubmit={onSubmit}
               >
-                {({ errors, touched }) => (
+                {({ errors, touched, setFieldValue }) => (
                   <StyledForm>
                     <X onClick={() => setFormOpen(false)} />
                     <StyledTitle>Add Product</StyledTitle>
@@ -320,17 +318,27 @@ export default function Home() {
                     </ErrorContainer>
 
                     <StyledLabel htmlFor="category">Category:</StyledLabel>
-                    <StyledField
-                      as="select"
-                      id="category"
-                      name="category"
-                      placeholder="Enter a category"
-                    >
-                      <option value="" label="Select a category">Select a category</option>
-                      {categories.map((category) => (
-                        <option key={category} value={category} label={category}>{category}</option>
-                      ))}
-                    </StyledField>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className="w-[200px] justify-between"
+                        >
+                          {initialValues.category || "Select a category"}
+                          <ChevronDown className="ml-2 h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-[200px]">
+                        {categories.map((category) => (
+                          <DropdownMenuItem
+                            key={category}
+                            onSelect={() => setFieldValue("category", category)}
+                          >
+                            {category}
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                     <ErrorContainer>
                       {touched.category && errors.category && (
                         <p className="form_error">{errors.category}</p>
