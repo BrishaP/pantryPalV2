@@ -101,14 +101,14 @@ export default function Home() {
   useEffect(() => {
     const fetchFoodItems = async () => {
       try {
-        const response = await fetch('/api/food-items');
+        const response = await fetch("/api/food-items");
         if (!response.ok) {
-          throw new Error('Failed to fetch food items');
+          throw new Error("Failed to fetch food items");
         }
         const data = await response.json();
         setFoodItems(data);
       } catch (error) {
-        console.error('Error fetching food items:', error);
+        console.error("Error fetching food items:", error);
       }
     };
 
@@ -117,15 +117,15 @@ export default function Home() {
 
   const getCategoryImage = (category) => {
     const images = {
-      'Meat': '/images/meat.png',
-      'Fish': '/images/fish.png',
-      'Dairy': '/images/dairy.png',
-      'Produce': '/images/produce.png',
-      'Bakery': '/images/bakery.png',
-      'Pantry': '/images/pantry.png',
-      'Other': '/images/other.png'
+      Meat: "/images/meat.png",
+      Fish: "/images/fish.png",
+      Dairy: "/images/dairy.png",
+      Produce: "/images/produce.png",
+      Bakery: "/images/bakery.png",
+      Pantry: "/images/pantry.png",
+      Other: "/images/other.png",
     };
-    return images[category] || images['Other'];
+    return images[category] || images["Other"];
   };
 
   return (
@@ -145,7 +145,9 @@ export default function Home() {
                   height={200}
                   className="foodImage"
                 />
-                <p>Expires on: {new Date(item.expiry_date).toLocaleDateString()}</p>
+                <p>
+                  Expires on: {new Date(item.expiry_date).toLocaleDateString()}
+                </p>
               </CardContent>
             </Card>
           ))}

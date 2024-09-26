@@ -73,7 +73,7 @@ export const getItems = async () => {
   const { data, error } = await supabase
     .from("food_inventory")
     .select("*")
-    .order('expiry_date', { ascending: true });
+    .order("expiry_date", { ascending: true });
   if (error) {
     console.error("Error fetching items:", error);
     return [];
