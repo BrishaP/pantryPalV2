@@ -2,6 +2,12 @@
 
 import React, { useState } from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
+
+import { Formik, Form, Field } from 'formik';
+
+import { signupSchema } from '../Schema/index';
+import styled from 'styled-components';
+
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,10 +19,78 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Plus, Minus } from 'lucide-react';
+import { Plus, Minus, X } from 'lucide-react';
 import { ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import './page.css';
+
+//CROM 
+// Define the styled components
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh; /* Full viewport height */
+  background-color: #f0f0f0; /* Optional: background color for the page */
+`;
+
+const StyledForm = styled(Form)`
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+`;
+
+const StyledLabel = styled.label`
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: green;
+`;
+
+const StyledTitle = styled.label`
+  margin-bottom: 15px;
+  font-weight: bold;
+`;
+
+const StyledField = styled(Field)`
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+`;
+
+const ErrorContainer = styled.div`
+  margin-bottom: 15px;
+  color: red;
+`;
+
+const SubmitButton = styled.button`
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: green;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+`;
+
+const initialValues = {
+    name: "",
+    category: "",
+    expiry_date: "",
+    quantity: "",
+}
+/////
 
 const categories = [
   'Meat',
@@ -27,6 +101,19 @@ const categories = [
   'Pantry',
   'Other',
 ];
+
+// {
+//   item_id: '2024-09-25T11:32:44.65905',
+//   name: 'Strawberry',
+//   category: 'Produce',
+//   stored_location: 'Fridge',
+//   expiry_date: '2023-12-31',
+//   quantity: 10,
+//   weight: 1.5,
+//   opened_date: null,
+//   days_valid_after_opening: null,
+//   expiry_notification: true
+// }
 
 const foodItems = [
   {
@@ -101,35 +188,41 @@ export default function Home() {
   //FOR NEW ITEM
   const [formOpen, setFormOpen] = useState(false);
 
-  const [newItem, setNewItem] = useState({
-    name: '',
-    category: '',
-    expiry_date: '',
-    quantity: '',
-  });
+  // const [newItem, setNewItem] = useState({
+  //   name: '',
+  //   category: '',
+  //   expiry_date: '',
+  //   quantity: '',
+  // });
 
-  const handleSubmit = (e) => {
-        // Fire POST API call with details in newItem
-    e.preventDefault();
-    setFormOpen(false);
-    console.log(newItem);
-  };
+  // const handleSubmit = (e) => {
+  //       // Fire POST API call with details in newItem
+  //   e.preventDefault();
+  //   setFormOpen(false);
+  //   console.log(newItem);
+  // };
+
+  const onSubmit=(values, actions) => {
+    console.log(values);
+    actions.resetForm();
+  }
+
   
-  const handleCategoryChange = (value) => {
-    setNewItem({
-      ...newItem,
-      category: event.target.value,
-    });
-  };
+  // const handleCategoryChange = (value) => {
+  //   setNewItem({
+  //     ...newItem,
+  //     category: event.target.value,
+  //   });
+  // };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewItem({
-      ...newItem,
-      [name]: value,
-      [category]: value,
-    });
-  };
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setNewItem({
+  //     ...newItem,
+  //     [name]: value,
+  //     [category]: value,
+  //   });
+  // };
 
   // FOR EDIT CURRENT ITEM
   const handleQuantityChange = (change, e) => {
@@ -193,9 +286,82 @@ export default function Home() {
       </div>
 
       {formOpen && (
+
         <div className="overlay" role="dialog" aria-modal="true">
           <div className="overlayContent">
-            <form className="productForm" onSubmit={handleSubmit}>
+
+
+        <Container>
+            <Formik initialValues={initialValues} validationSchema={signupSchema} onSubmit={onSubmit}>
+
+
+                {({ errors, touched }) => (
+                  
+                  <StyledForm>
+                        
+                      <X onClick={() => setFormOpen(false)} />
+                      <StyledTitle>Add Product</StyledTitle>
+
+                        {/* item name entry and error message */}
+                        <StyledLabel htmlFor="name">Name:</StyledLabel>
+                        <Field type="text" id="name" name="name" placeholder="Enter product name" />
+            
+                        <ErrorContainer>
+                        {touched.name && errors.name && (
+                            <p className="form_error">{errors.name}</p>)}
+                        </ErrorContainer>
+                    
+
+                        {/* item quantity and error message */}
+                        <StyledLabel htmlFor="name">Quantity:</StyledLabel>
+                        <StyledField type="number" id="quantity" name="quantity" placeholder="Enter quantity" />
+            
+                        <ErrorContainer>
+                            {touched.quantity && errors.quantity && (
+                            <p className="form_error">{errors.quantity}</p>
+                            )}
+                        </ErrorContainer>
+
+
+                        {/* item category and error message */}
+                      
+                        <StyledLabel htmlFor="category">Category:</StyledLabel>
+                         <StyledField type="text" id="category" name="category" placeholder="Enter a category" />
+                        
+
+                        <ErrorContainer>
+                        {touched.category && errors.category && (
+                            <p className="form_error">{errors.category}</p>)}
+                        </ErrorContainer>
+                        <div className="error_container"></div>
+
+
+                        {/* item expiry date and error message */}
+                        <StyledLabel htmlFor="expiry_date">Expiry Date:</StyledLabel>
+                        <StyledField type="date" id="expiry_date" name="expiry_date" />
+                        
+                        <ErrorContainer>
+                        {touched.expiry_date && errors.expiry_date && (
+                            <p className="form_error">{errors.expiry_date}</p>)}
+                        </ErrorContainer>
+
+
+
+
+                        <SubmitButton type="submit">
+                            Submit
+                        </SubmitButton>
+            
+                
+        
+                
+                    </StyledForm>
+                )}
+            </Formik>
+                
+        </Container>
+
+            {/* <form className="productForm" onSubmit={handleSubmit}>
               <label>
                 Name:
                 <input
@@ -224,7 +390,12 @@ export default function Home() {
               </select>
 
               <button type="submit">Enter</button>
-            </form>
+            </form> */}
+
+
+
+
+
           </div>
         </div>
       )}
