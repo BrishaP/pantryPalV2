@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { createClient } from "@supabase/supabase-js";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,13 +9,9 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuCheckboxItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Plus, Minus } from "lucide-react";
-import { ChevronDown } from "lucide-react";
+import { Plus, Minus, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import "./page.css";
 
@@ -28,79 +25,11 @@ const categories = [
   "Other",
 ];
 
-const foodItems = [
-  {
-    id: 1,
-    name: "Banana",
-    expiry_date: "2023-12-31",
-    quantity: 1,
-    category: "Produce",
-    image: "/images/banana.png",
-  },
-  {
-    id: 2,
-    name: "Bread",
-    expiry_date: "2023-12-31",
-    quantity: 2,
-    category: "Bakery",
-    image: "/images/bread.webp",
-  },
-  {
-    id: 3,
-    name: "Eggs",
-    expiry_date: "2023-12-31",
-    quantity: 12,
-    category: "Dairy",
-    image: "/images/eggs.jpeg",
-  },
-  {
-    id: 4,
-    name: "Cheese",
-    expiry_date: "2023-12-31",
-    quantity: 1,
-    category: "Dairy",
-    image: "/images/cheese.jpg",
-  },
-  {
-    id: 5,
-    name: "Yogurt",
-    expiry_date: "2023-12-31",
-    quantity: 4,
-    category: "Dairy",
-    image: "/images/yoghurt.png",
-  },
-  {
-    id: 6,
-    name: "Apples",
-    expiry_date: "2023-12-31",
-    quantity: 6,
-    category: "Produce",
-    image: "/images/apples.png",
-  },
-  {
-    id: 7,
-    name: "Chicken",
-    expiry_date: "2023-12-31",
-    quantity: 2,
-    category: "Meat",
-    image: "/images/chicken.jpg",
-  },
-  {
-    id: 8,
-    name: "Tomatoes",
-    expiry_date: "2023-12-31",
-    quantity: 5,
-    category: "Produce",
-    image: "/images/tomato.jpeg",
-  },
-];
-
 export default function Home() {
+  const [foodItems, setFoodItems] = useState([]);
   const [selectedFood, setSelectedFood] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
-
   const [formOpen, setFormOpen] = useState(false);
-
   const [newItem, setNewItem] = useState({
     name: "",
     category: "",
@@ -108,11 +37,57 @@ export default function Home() {
     quantity: "",
   });
 
-  console.log(formOpen);
+  useEffect(() => {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    );
 
-  // NEED TO ADD: If quantity goes to 0, remove from DB
+    const fetchFoodItems = async () => {
+      const { data, error } = await supabase
+        .from("food_inventory")
+        .select("*")
+        .order("expiry_date", { ascending: true });
 
-  // Need to ADD: When quantity changes, update DB
+      if (error) {
+        console.error("Error fetching food items:", error);
+      } else {
+        setFoodItems(data);
+      }
+    };
+
+    fetchFoodItems();
+
+    const subscription = supabase
+      .channel("food_inventory_changes")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "food_inventory" },
+        (payload) => {
+          console.log("Change received!", payload);
+          fetchFoodItems();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  const getCategoryImage = (category) => {
+    const images = {
+      Meat: "/images/meat.png",
+      Fish: "/images/fish.png",
+      Dairy: "/images/dairy.png",
+      Produce: "/images/produce.png",
+      Bakery: "/images/bakery.png",
+      Pantry: "/images/pantry.png",
+      Other: "/images/other.png",
+    };
+    return images[category] || images["Other"];
+  };
+
   const handleQuantityChange = (change) => {
     if (selectedFood) {
       setSelectedFood({
@@ -133,14 +108,13 @@ export default function Home() {
     setNewItem({
       ...newItem,
       [name]: value,
-      [category]: value,
     });
   };
 
-  const handleCategoryChange = (value) => {
+  const handleCategoryChange = (e) => {
     setNewItem({
       ...newItem,
-      category: event.target.value,
+      category: e.target.value,
     });
   };
 
@@ -157,15 +131,17 @@ export default function Home() {
             >
               <CardContent className="foodItemContent">
                 <h2>{item.name}</h2>
-                <p>x{item.quantity}</p>
+                <p>Quantity: {item.quantity}</p>
                 <Image
-                  src={item.image}
-                  alt={item.name}
+                  src={getCategoryImage(item.category)}
+                  alt={item.category}
                   width={200}
                   height={200}
                   className="foodImage"
                 />
-                <p>Expires on: {item.expiry_date} </p>
+                <p>
+                  Expires on: {new Date(item.expiry_date).toLocaleDateString()}
+                </p>
               </CardContent>
             </Card>
           ))}
@@ -188,27 +164,24 @@ export default function Home() {
                   type="text"
                   name="name"
                   value={newItem.name}
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
+                  onChange={handleChange}
                   required
                 />
               </label>
-              <label for="cars">Choose a produce type:</label>
-              <select
-                name="category"
-                id="category"
-                onChange={handleCategoryChange}
-              >
-                <option value="meat">Meat</option>
-                <option value="fish">Fish</option>
-                <option value="dairy">Dairy</option>
-                <option value="produce">Produce</option>
-                <option value="bakery">Baker</option>
-                <option value="pantry">Pantry</option>
-                <option value="other">Other</option>
-              </select>
-
+              <label>
+                Choose a produce type:
+                <select
+                  name="category"
+                  id="category"
+                  onChange={handleCategoryChange}
+                >
+                  {categories.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </select>
+              </label>
               <button type="submit">Enter</button>
             </form>
           </div>
@@ -224,7 +197,7 @@ export default function Home() {
                 <input
                   type="text"
                   name="itemName"
-                  value={newItem}
+                  value={selectedFood.name}
                   onChange={handleChange}
                   required
                 />
@@ -235,7 +208,7 @@ export default function Home() {
                     variant="outline"
                     className="w-[200px] justify-between"
                   >
-                    {selectedCategory}
+                    {selectedCategory || "Select Category"}
                     <ChevronDown className="ml-2 h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
