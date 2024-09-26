@@ -14,7 +14,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { signupSchema } from '../Schema/index';
 import styled from 'styled-components';
-
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 =======
