@@ -440,8 +440,11 @@ export default function Home() {
         <div className="overlay" role="dialog" aria-modal="true">
           <div className="overlayContent">
 
+                  <Button type="button" onClick={() => setSelectedFood(null)} className="text-sm px-2 py-1 bg-red-500 text-white rounded ml-auto">
+                    Delete item</Button>
             <form className="productForm" onSubmit={handleEditSubmit}>
             <X onClick={() => setSelectedFood(null)} />
+
 
               <label>
                 Name:
