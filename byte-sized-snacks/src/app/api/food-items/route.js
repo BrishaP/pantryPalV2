@@ -25,6 +25,7 @@ export async function GET() {
   }
 }
 
+
 export async function POST(request) {
   try {
     const { name, category, expiry_date, quantity } = await request.json();
@@ -47,14 +48,17 @@ export async function POST(request) {
 }
 
 export async function DELETE(request) {
+  console.log("DELETE request received");
   try {
     const { id } = await request.json();
+    console.log("Deleting item with id:", id);
     const { data, error } = await supabase
       .from("food_inventory")
       .delete()
-      .eq("id", id);
+      .eq("item_id", id); // Use item_id instead of id
 
     if (error) throw error;
+    console.log("Item deleted successfully");
     return NextResponse.json({ message: "Item deleted successfully" });
   } catch (error) {
     console.error("Error deleting food item:", error);
