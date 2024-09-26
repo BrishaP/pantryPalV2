@@ -377,17 +377,27 @@ export default function Home() {
                         </ErrorContainer>
 
 
-                        {/* item category and error message */}
-                      
-                        <StyledLabel htmlFor="category">Category:</StyledLabel>
-                         <StyledField type="text" id="category" name="category" placeholder="Enter a category" />
+                        {/* item CATEGORY and error message */}
+            
+          
+                        <StyledLabel htmlFor="category">Select a category:</StyledLabel>
                         
+                    {/* <StyledCategoryInput> */}
+                        <Field as="select" name="category" id="category" style={{ display: "block" }}>
+                        <option value="" label="Select a category">Select a category</option>
+                        <option value="fruits" label="Fruits">Fruits</option>
+                        <option value="vegetables" label="Vegetables">Vegetables</option>
+                        <option value="dairy" label="Dairy">Dairy</option>
+                        <option value="meat" label="Meat">Meat</option>
+                        <option value="baking" label="Baking">Baking</option>
+                        <option value="snacks" label="Snacks">Snacks</option>
+                        <option value="other" label="Other">Other</option>
+                        </Field>
+                    {/* </StyledCategoryInput> */}
 
                         <ErrorContainer>
-                        {touched.category && errors.category && (
-                            <p className="form_error">{errors.category}</p>)}
+                        {touched.category && errors.category && <p className="form_error">{errors.category}</p>}
                         </ErrorContainer>
-                        <div className="error_container"></div>
 
 
                         {/* item expiry date and error message */}
@@ -405,8 +415,9 @@ export default function Home() {
                         <SubmitButton type="submit">
                             Submit
                         </SubmitButton>
-            
-                        <ToastContainer />
+                        
+                          <div className="toastcontainer"><ToastContainer /></div>
+                        
         
                 
                     </StyledForm>
@@ -415,37 +426,7 @@ export default function Home() {
                 
         </Container>
 
-            {/* <form className="productForm" onSubmit={handleSubmit}>
-              <label>
-                Name:
-                <input
-                  type="text"
-                  name="name"
-                  value={newItem.name}
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                  required
-                />
-              </label>
-              <label for="cars">Choose a produce type:</label>
-              <select
-                name="category"
-                id="category"
-                onChange={handleCategoryChange}
-              >
-                <option value="meat">Meat</option>
-                <option value="fish">Fish</option>
-                <option value="dairy">Dairy</option>
-                <option value="produce">Produce</option>
-                <option value="bakery">Baker</option>
-                <option value="pantry">Pantry</option>
-                <option value="other">Other</option>
-              </select>
-
-              <button type="submit">Enter</button>
-
-            </form> */}
+            
 
 
 
