@@ -224,10 +224,31 @@ export default function Home() {
     setSelectedFood(null);
   };
 
-  const handleDelete = () => {
-   // api delete the item in selectedFood 
-  setSelectedFood(null)
-  }
+  const handleDelete = async () => {
+    if (!selectedFood) return;
+  
+    try {
+      const response = await fetch('/api/route', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: selectedFood.id }),
+      });
+  
+      const result = await response.json();
+  
+      if (response.ok) {
+        console.log(result.message);
+        setSelectedFood(null);
+        // Optionally, refresh the food items list here
+      } else {
+        console.error(result.error);
+      }
+    } catch (error) {
+      console.error("Error deleting food item:", error);
+    }
+  };
 
   const handleModify = (e) => {
     const { name, value } = e.target;

@@ -25,70 +25,6 @@ export async function GET() {
   }
 }
 
-// export async function POST(request) {
-//   try {
-//     const { name, category, expiry_date, quantity } = await request.json();
-
-//     const { data, error } = await supabase
-//       .from("food_inventory")
-//       .insert([{ name, category, expiry_date, quantity }])
-//       .select();
-
-//     if (error) throw error;
-//     return NextResponse.json(data);
-//   } catch (error) {
-//     console.error("Error adding food item:", error);
-//     return NextResponse.json(
-//       { error: "Failed to add food item" },
-//       { status: 500 }
-//     );
-//   }
-// }
-
-// export default async function handler(req, res) {
-//   if (req.method === 'POST') {
-//     const { name, category, expiry_date, quantity } = req.body;
-
-//     // Validate the input
-//     if (!name || !category || !expiry_date || !quantity) {
-//       return res.status(400).json({ error: 'Missing required fields' });
-//     }
-
-//     // Insert the new food item into the database
-//     const { data, error } = await supabase
-//       .from('food_inventory')
-//       .insert([{ name, category, expiry_date, quantity }]);
-
-//     if (error) {
-//       console.error('Error inserting food item:', error);
-//       return res.status(500).json({ error: 'Failed to add food item' });
-//     }
-
-//     res.status(200).json(data);
-//   } else {
-//     res.status(405).json({ error: 'Method not allowed' });
-//   }
-// }
-
-// export const createItem = async (item) => {
-//   const { data, error } = await supabase
-//     .from("food_inventory") // Replace with your actual table name
-//     .insert([item])
-//     .single(); // Ensure it returns a single object
-
-//   if (error) {
-//     console.error(
-//       "Error creating item:",
-//       error.message,
-//       error.details,
-//       error.hint,
-//     );
-//     return null;
-//   }
-
-//   return data;
-// };
-
 export async function POST(request) {
   try {
     const { name, category, expiry_date, quantity } = await request.json();
@@ -105,6 +41,25 @@ export async function POST(request) {
     console.error("Error adding food item:", error);
     return NextResponse.json(
       { error: "Failed to add food item" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(request) {
+  try {
+    const { id } = await request.json();
+    const { data, error } = await supabase
+      .from("food_inventory")
+      .delete()
+      .eq("id", id);
+
+    if (error) throw error;
+    return NextResponse.json({ message: "Item deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting food item:", error);
+    return NextResponse.json(
+      { error: "Failed to delete food item" },
       { status: 500 }
     );
   }
