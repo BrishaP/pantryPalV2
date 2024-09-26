@@ -126,7 +126,7 @@ const foodItems = [
     expiry_date: '2023-12-31',
     quantity: 1,
     category: 'Produce',
-    image: '/images/banana.png',
+    image: '/images/dairy.png',
   },
   {
     id: 2,
@@ -134,7 +134,7 @@ const foodItems = [
     expiry_date: '2023-12-31',
     quantity: 2,
     category: 'Bakery',
-    image: '/images/bread.webp',
+    image: '/images/dairy.png',
   },
   {
     id: 3,
@@ -142,7 +142,7 @@ const foodItems = [
     expiry_date: '2023-12-31',
     quantity: 12,
     category: 'Dairy',
-    image: '/images/eggs.jpeg',
+    image: '/images/dairy.png',
   },
   {
     id: 4,
@@ -150,7 +150,7 @@ const foodItems = [
     expiry_date: '2023-12-31',
     quantity: 1,
     category: 'Dairy',
-    image: '/images/cheese.jpg',
+    image: '/images/dairy.png',
   },
   {
     id: 5,
@@ -158,7 +158,7 @@ const foodItems = [
     expiry_date: '2023-12-31',
     quantity: 4,
     category: 'Dairy',
-    image: '/images/yoghurt.png',
+    image: '/images/dairy.png',
   },
   {
     id: 6,
@@ -166,7 +166,7 @@ const foodItems = [
     expiry_date: '2023-12-31',
     quantity: 6,
     category: 'Produce',
-    image: '/images/apples.png',
+    image: '/images/dairy.png',
   },
   {
     id: 7,
@@ -174,7 +174,7 @@ const foodItems = [
     expiry_date: '2023-12-31',
     quantity: 2,
     category: 'Meat',
-    image: '/images/chicken.jpg',
+    image: '/images/dairy.png',
   },
   {
     id: 8,
@@ -182,7 +182,7 @@ const foodItems = [
     expiry_date: '2023-12-31',
     quantity: 5,
     category: 'Produce',
-    image: '/images/tomato.jpeg',
+    image: '/images/dairy.png',
   },
 ];
 
