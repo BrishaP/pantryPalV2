@@ -1,5 +1,4 @@
-'use client';
-
+"use client";
 import React, { useState  } from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
@@ -16,6 +15,7 @@ import styled from 'styled-components';
 
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -99,13 +99,13 @@ const initialValues = {
 /////
 
 const categories = [
-  'Meat',
-  'Fish',
-  'Dairy',
-  'Produce',
-  'Bakery',
-  'Pantry',
-  'Other',
+  "Meat",
+  "Fish",
+  "Dairy",
+  "Produce",
+  "Bakery",
+  "Pantry",
+  "Other",
 ];
 
 // {
@@ -124,6 +124,7 @@ const categories = [
 const foodItems = [
   {
     id: 1,
+
     name: 'Banana',
     expiry_date: '2024-10-06',
     quantity: 1,
@@ -232,6 +233,7 @@ export default function Home() {
   //FOR NEW ITEM
   const [formOpen, setFormOpen] = useState(false);
 
+
   // const [newItem, setNewItem] = useState({
   //   name: '',
   //   category: '',
@@ -261,6 +263,7 @@ export default function Home() {
   //     category: event.target.value,
   //   });
   // };
+
 
   // const handleChange = (e) => {
   //   const { name, value } = e.target;
@@ -294,6 +297,7 @@ export default function Home() {
     setSelectedFood({
       ...selectedFood,
       [name]: value,
+
     });
   };
 
@@ -335,6 +339,7 @@ export default function Home() {
       </div>
 
       {formOpen && (
+
 
         <div className="overlay" role="dialog" aria-modal="true">
           <div className="overlayContent">
@@ -449,6 +454,7 @@ export default function Home() {
               </select>
 
               <button type="submit">Enter</button>
+
             </form> */}
 
 
@@ -462,6 +468,7 @@ export default function Home() {
       {selectedFood && (
         <div className="overlay" role="dialog" aria-modal="true">
           <div className="overlayContent">
+
             <form className="productForm" onSubmit={handleEditSubmit}>
             <X onClick={() => setSelectedFood(null)} />
 
@@ -484,7 +491,9 @@ export default function Home() {
                     variant="outline"
                     className="w-[200px] justify-between"
                   >
+
                     {selectedFood.category}
+
                     <ChevronDown className="ml-2 h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -518,6 +527,7 @@ export default function Home() {
                 Expires On:
                 <input
                   type="text"
+
                   name="expiry_date"
                   value={selectedFood.expiry_date}
                   onChange={(e) => {
@@ -527,6 +537,7 @@ export default function Home() {
                 />
               </label>
               
+
               Quantity:
               <div className="quantityControl">
                 <Button
