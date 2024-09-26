@@ -1,7 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState  } from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
+
+
 
 import { Formik, Form, Field } from 'formik';
 
@@ -123,7 +125,7 @@ const foodItems = [
   {
     id: 1,
     name: 'Banana',
-    expiry_date: '2023-12-31',
+    expiry_date: '2024-10-06',
     quantity: 1,
     category: 'Produce',
     image: '/images/dairy.png',
@@ -131,7 +133,7 @@ const foodItems = [
   {
     id: 2,
     name: 'Bread',
-    expiry_date: '2023-12-31',
+    expiry_date: '2024-09-26',
     quantity: 2,
     category: 'Bakery',
     image: '/images/dairy.png',
@@ -139,7 +141,7 @@ const foodItems = [
   {
     id: 3,
     name: 'Eggs',
-    expiry_date: '2023-12-31',
+    expiry_date: '2024-10-02',
     quantity: 12,
     category: 'Dairy',
     image: '/images/dairy.png',
@@ -147,7 +149,7 @@ const foodItems = [
   {
     id: 4,
     name: 'Cheese',
-    expiry_date: '2023-12-31',
+    expiry_date: '2024-09-30',
     quantity: 1,
     category: 'Dairy',
     image: '/images/dairy.png',
@@ -155,7 +157,7 @@ const foodItems = [
   {
     id: 5,
     name: 'Yogurt',
-    expiry_date: '2023-12-31',
+    expiry_date: '2024-09-28',
     quantity: 4,
     category: 'Dairy',
     image: '/images/dairy.png',
@@ -163,7 +165,7 @@ const foodItems = [
   {
     id: 6,
     name: 'Apples',
-    expiry_date: '2023-12-31',
+    expiry_date: '2024-10-05',
     quantity: 6,
     category: 'Produce',
     image: '/images/dairy.png',
@@ -171,7 +173,7 @@ const foodItems = [
   {
     id: 7,
     name: 'Chicken',
-    expiry_date: '2023-12-31',
+    expiry_date: '2024-09-29',
     quantity: 2,
     category: 'Meat',
     image: '/images/dairy.png',
@@ -179,7 +181,7 @@ const foodItems = [
   {
     id: 8,
     name: 'Tomatoes',
-    expiry_date: '2023-12-31',
+    expiry_date: '2024-09-25',
     quantity: 5,
     category: 'Produce',
     image: '/images/dairy.png',
@@ -193,6 +195,36 @@ const getCurrentDate = () => {
   const dd = String(today.getDate()).padStart(2, '0');
   return `${yyyy}-${mm}-${dd}`;
 };
+
+function expiryStatus(expiryDate) {
+  const now = new Date();
+  const expiry = new Date(expiryDate);
+
+  // Set the time part of both dates to midnight for accurate day comparison
+  now.setHours(0, 0, 0, 0);
+  expiry.setHours(0, 0, 0, 0);
+
+  // Get the difference in time (milliseconds)
+  const timeDifference = expiry - now;
+
+  // Convert the time difference from milliseconds to days
+  const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+  // Helper function to add plural 's' if needed
+  function pluralize(days) {
+    return days === 1 ? '' : 's';
+  }
+
+  if (daysDifference < 0) {
+    const daysAgo = Math.abs(daysDifference);
+    return `Expired ${daysAgo} day${pluralize(daysAgo)} ago`;
+  } else if (daysDifference === 0) {
+    return "Expiring today";
+  } else {
+    return `Expires in ${daysDifference} day${pluralize(daysDifference)}`;
+  }
+}
+
 
 export default function Home() {
   const [selectedFood, setSelectedFood] = useState(null);
@@ -289,7 +321,7 @@ export default function Home() {
                   height={200}
                   className="foodImage"
                 />
-                <p>Expires on: {item.expiry_date} </p>
+                <p> {expiryStatus(item.expiry_date)}</p>
               </CardContent>
             </Card>
           ))}
