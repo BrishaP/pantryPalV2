@@ -1,4 +1,5 @@
-'use client';
+"use client";
+
 
 import React, { useState  } from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -16,6 +17,12 @@ import styled from 'styled-components';
 
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+=======
+import React, { useState } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,6 +31,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuCheckboxItem,
   DropdownMenuTrigger,
+
 } from '@/components/ui/dropdown-menu';
 import { Plus, Minus, X } from 'lucide-react';
 import { ChevronDown } from 'lucide-react';
@@ -97,15 +105,22 @@ const initialValues = {
     quantity: "",
 }
 /////
+=======
+} from "@/components/ui/dropdown-menu";
+import { Plus, Minus } from "lucide-react";
+import { ChevronDown } from "lucide-react";
+import Image from "next/image";
+import "./page.css";
+
 
 const categories = [
-  'Meat',
-  'Fish',
-  'Dairy',
-  'Produce',
-  'Bakery',
-  'Pantry',
-  'Other',
+  "Meat",
+  "Fish",
+  "Dairy",
+  "Produce",
+  "Bakery",
+  "Pantry",
+  "Other",
 ];
 
 // {
@@ -185,6 +200,69 @@ const foodItems = [
     quantity: 5,
     category: 'Produce',
     image: '/images/dairy.png',
+=======
+    name: "Banana",
+    expiry_date: "2023-12-31",
+    quantity: 1,
+    category: "Produce",
+    image: "/images/banana.png",
+  },
+  {
+    id: 2,
+    name: "Bread",
+    expiry_date: "2023-12-31",
+    quantity: 2,
+    category: "Bakery",
+    image: "/images/bread.webp",
+  },
+  {
+    id: 3,
+    name: "Eggs",
+    expiry_date: "2023-12-31",
+    quantity: 12,
+    category: "Dairy",
+    image: "/images/eggs.jpeg",
+  },
+  {
+    id: 4,
+    name: "Cheese",
+    expiry_date: "2023-12-31",
+    quantity: 1,
+    category: "Dairy",
+    image: "/images/cheese.jpg",
+  },
+  {
+    id: 5,
+    name: "Yogurt",
+    expiry_date: "2023-12-31",
+    quantity: 4,
+    category: "Dairy",
+    image: "/images/yoghurt.png",
+  },
+  {
+    id: 6,
+    name: "Apples",
+    expiry_date: "2023-12-31",
+    quantity: 6,
+    category: "Produce",
+    image: "/images/apples.png",
+  },
+  {
+    id: 7,
+    name: "Chicken",
+    expiry_date: "2023-12-31",
+    quantity: 2,
+    category: "Meat",
+    image: "/images/chicken.jpg",
+  },
+  {
+    id: 8,
+    name: "Tomatoes",
+    expiry_date: "2023-12-31",
+    quantity: 5,
+    category: "Produce",
+    image: "/images/tomato.jpeg",
+
   },
 ];
 
@@ -232,6 +310,7 @@ export default function Home() {
   //FOR NEW ITEM
   const [formOpen, setFormOpen] = useState(false);
 
+
   // const [newItem, setNewItem] = useState({
   //   name: '',
   //   category: '',
@@ -261,6 +340,16 @@ export default function Home() {
   //     category: event.target.value,
   //   });
   // };
+=======
+  const [newItem, setNewItem] = useState({
+    name: "",
+    category: "",
+    expiry_date: "",
+    quantity: "",
+  });
+
+  console.log(formOpen);
+
 
   // const handleChange = (e) => {
   //   const { name, value } = e.target;
@@ -294,10 +383,23 @@ export default function Home() {
     setSelectedFood({
       ...selectedFood,
       [name]: value,
+
     });
   };
 
   
+
+=======
+      [category]: value,
+    });
+  };
+
+  const handleCategoryChange = (value) => {
+    setNewItem({
+      ...newItem,
+      category: event.target.value,
+    });
+  };
 
 
   return (
@@ -335,6 +437,7 @@ export default function Home() {
       </div>
 
       {formOpen && (
+
 
         <div className="overlay" role="dialog" aria-modal="true">
           <div className="overlayContent">
@@ -411,6 +514,11 @@ export default function Home() {
         </Container>
 
             {/* <form className="productForm" onSubmit={handleSubmit}>
+=======
+        <div className="overlay" role="dialog" aria-modal="true">
+          <div className="overlayContent">
+            <form className="productForm" onSubmit={handleSubmit}>
+
               <label>
                 Name:
                 <input
@@ -439,11 +547,15 @@ export default function Home() {
               </select>
 
               <button type="submit">Enter</button>
+
             </form> */}
 
 
 
 
+
+=======
+            </form>
 
           </div>
         </div>
@@ -452,16 +564,26 @@ export default function Home() {
       {selectedFood && (
         <div className="overlay" role="dialog" aria-modal="true">
           <div className="overlayContent">
+
             <form className="productForm" onSubmit={handleEditSubmit}>
+=======
+            <form className="productForm" onSubmit={handleSubmit}>
+
               <label>
                 Name:
                 <input
                   type="text"
+
                   name="name"
                   value={selectedFood.name}
                   onChange={(e) => {
                     handleModify(e);
                   }}
+=======
+                  name="itemName"
+                  value={newItem}
+                  onChange={handleChange}
+
                   required
                 />
               </label>
@@ -471,7 +593,11 @@ export default function Home() {
                     variant="outline"
                     className="w-[200px] justify-between"
                   >
+
                     {selectedFood.category}
+=======
+                    {selectedCategory}
+
                     <ChevronDown className="ml-2 h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -505,11 +631,17 @@ export default function Home() {
                 Expires On:
                 <input
                   type="text"
+
                   name="expiry_date"
                   value={selectedFood.expiry_date}
                   onChange={(e) => {
                     handleModify(e);
                   }}
+=======
+                  name="itemExpiry"
+                  value={selectedFood.expiry_date}
+                  onChange={handleChange}
+
                   required
                 />
               </label>
