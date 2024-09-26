@@ -116,14 +116,23 @@ function expiryStatus(expiryDate) {
     return days === 1 ? "" : "s";
   }
 
+  let statusText = "";
+  let isExpiringSoon = false;
+
   if (daysDifference < 0) {
     const daysAgo = Math.abs(daysDifference);
-    return `Expired ${daysAgo} day${pluralize(daysAgo)} ago`;
+    statusText = `Expired ${daysAgo} day${pluralize(daysAgo)} ago`;
   } else if (daysDifference === 0) {
-    return "Expiring today";
+    statusText = "Expiring today";
+    isExpiringSoon = true;
   } else {
-    return `Expires in ${daysDifference} day${pluralize(daysDifference)}`;
+    statusText = `Expires in ${daysDifference} day${pluralize(daysDifference)}`;
+    if (daysDifference <= 3) {
+      isExpiringSoon = true;
+    }
   }
+
+  return { statusText, isExpiringSoon };
 }
 
 export default function Home() {
@@ -307,27 +316,30 @@ export default function Home() {
       <h1>Food Expiry Tracker</h1>
       <ScrollArea className="scrollArea">
         <div className="foodGrid">
-          {foodItems.map((item) => (
-            <Card
-              key={item.item_id}
-              className="foodItem"
-              onClick={() => setSelectedFood(item)}
-            >
-              <CardContent className="foodItemContent">
-                <h2>{item.name}</h2>
-                <p>x{item.quantity}</p>
-                <p>{item.category}</p>
-                <Image
-                  src={getCategoryImage(item.category)}
-                  alt={item.category}
-                  width={200}
-                  height={200}
-                  className="foodImage"
-                />
-                <p>{expiryStatus(item.expiry_date)}</p>
-              </CardContent>
-            </Card>
-          ))}
+        {foodItems.map((item) => {
+  const { statusText, isExpiringSoon } = expiryStatus(item.expiry_date);
+  return (
+    <Card
+      key={item.item_id}
+      className="foodItem"
+      onClick={() => setSelectedFood(item)}
+    >
+      <CardContent className="foodItemContent">
+        <h2>{item.name}</h2>
+        <p>x{item.quantity}</p>
+        <p>{item.category}</p>
+        <Image
+          src={getCategoryImage(item.category)}
+          alt={item.category}
+          width={200}
+          height={200}
+          className="foodImage"
+        />
+        <p className={isExpiringSoon ? "expiring-soon" : ""}>{statusText}</p>
+      </CardContent>
+    </Card>
+  );
+})}
         </div>
       </ScrollArea>
 

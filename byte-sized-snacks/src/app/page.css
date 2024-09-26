@@ -368,3 +368,7 @@ input{
   margin-left:0.3rem;
   border: 1px solid #666666;
 }
+
+.expiring-soon {
+  color: red;
+}
