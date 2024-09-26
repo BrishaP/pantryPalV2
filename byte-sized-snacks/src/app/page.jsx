@@ -172,10 +172,34 @@ export default function Home() {
 
   const notify = () => toast("Successfully Submitted!");
 
-  const onSubmit = (values, actions) => {
-    console.log(values);
-    actions.resetForm();
-    notify();
+  const onSubmit = async (values, actions) => {
+    try {
+      const response = await fetch("/api/add-food-item", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add food item");
+      }
+
+      const data = await response.json();
+      console.log("Food item added:", data);
+
+      // Update the food items state to include the new item and sort by expiry_date
+      setFoodItems((prevItems) => {
+        const updatedItems = [...prevItems, ...data];
+        return updatedItems.sort((a, b) => new Date(a.expiry_date) - new Date(b.expiry_date));
+      });
+
+      actions.resetForm();
+      notify();
+    } catch (error) {
+      console.error("Error adding food item:", error);
+    }
   };
 
   const handleQuantityChange = (change, e) => {
