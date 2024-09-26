@@ -70,21 +70,41 @@ export async function GET() {
 //   }
 // }
 
-export const createItem = async (item) => {
-  const { data, error } = await supabase
-    .from("food_inventory") // Replace with your actual table name
-    .insert([item])
-    .single(); // Ensure it returns a single object
+// export const createItem = async (item) => {
+//   const { data, error } = await supabase
+//     .from("food_inventory") // Replace with your actual table name
+//     .insert([item])
+//     .single(); // Ensure it returns a single object
 
-  if (error) {
-    console.error(
-      "Error creating item:",
-      error.message,
-      error.details,
-      error.hint,
+//   if (error) {
+//     console.error(
+//       "Error creating item:",
+//       error.message,
+//       error.details,
+//       error.hint,
+//     );
+//     return null;
+//   }
+
+//   return data;
+// };
+
+export async function POST(request) {
+  try {
+    const { name, category, expiry_date, quantity } = await request.json();
+
+    const { data, error } = await supabase
+      .from("food_inventory")
+      .insert([{ name, category, expiry_date, quantity }])
+      .select();
+
+    if (error) throw error;
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error("Error adding food item:", error);
+    return NextResponse.json(
+      { error: "Failed to add food item" },
+      { status: 500 }
     );
-    return null;
   }
-
-  return data;
-};
+}
