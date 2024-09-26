@@ -87,13 +87,13 @@ const initialValues = {
 };
 
 const categories = [
-  "Meat",
-  "Fish",
-  "Dairy",
-  "Produce",
-  "Bakery",
-  "Pantry",
-  "Other",
+  "meat",
+  "fish",
+  "dairy",
+  "produce",
+  "bakery",
+  "pantry",
+  "other",
 ];
 
 const getCurrentDate = () => {
@@ -261,6 +261,7 @@ export default function Home() {
               <CardContent className="foodItemContent">
                 <h2>{item.name}</h2>
                 <p>x{item.quantity}</p>
+                <p>{item.category}</p>
                 <Image
                   src={getCategoryImage(item.category)}
                   alt={item.category}
@@ -423,7 +424,7 @@ export default function Home() {
               </DropdownMenu>
               <div className="imageContainer">
                 <Image
-                  src={selectedFood.image}
+                  src={getCategoryImage(selectedFood.category)}
                   alt={selectedFood.name}
                   width={200}
                   height={200}
