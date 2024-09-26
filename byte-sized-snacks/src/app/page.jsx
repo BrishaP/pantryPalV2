@@ -372,17 +372,27 @@ export default function Home() {
                         </ErrorContainer>
 
 
-                        {/* item category and error message */}
-                      
-                        <StyledLabel htmlFor="category">Category:</StyledLabel>
-                         <StyledField type="text" id="category" name="category" placeholder="Enter a category" />
+                        {/* item CATEGORY and error message */}
+            
+          
+                        <StyledLabel htmlFor="category">Select a category:</StyledLabel>
                         
+                    {/* <StyledCategoryInput> */}
+                        <Field as="select" name="category" id="category" style={{ display: "block" }}>
+                        <option value="" label="Select a category">Select a category</option>
+                        <option value="fruits" label="Fruits">Fruits</option>
+                        <option value="vegetables" label="Vegetables">Vegetables</option>
+                        <option value="dairy" label="Dairy">Dairy</option>
+                        <option value="meat" label="Meat">Meat</option>
+                        <option value="baking" label="Baking">Baking</option>
+                        <option value="snacks" label="Snacks">Snacks</option>
+                        <option value="other" label="Other">Other</option>
+                        </Field>
+                    {/* </StyledCategoryInput> */}
 
                         <ErrorContainer>
-                        {touched.category && errors.category && (
-                            <p className="form_error">{errors.category}</p>)}
+                        {touched.category && errors.category && <p className="form_error">{errors.category}</p>}
                         </ErrorContainer>
-                        <div className="error_container"></div>
 
 
                         {/* item expiry date and error message */}

@@ -1,40 +1,41 @@
 "use client";
 
-import React from "react";
-import Link from "next/link";
-import styles from "./Footer.module.css";
-import Image from "next/image";
+import React from 'react';
+import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCarrot, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import styled from 'styled-components';
+
+const FooterContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+`;
+
+const StyledCarrotIcon = styled(FontAwesomeIcon)`
+  color: orange;
+  font-size: 70px;
+`;
+
+const StyledCirclePlusIcon = styled(FontAwesomeIcon)`
+  color: green;
+  font-size: 70px;
+`;
 
 const Footer = () => {
-    const pageLinks = [
-        { href: "/item", text: "", image: "/images/fridge.png" },
-
-        { href: "/shopping", text: "", image: "/images/add.png" },
-    ];
-
-    return (
-        <footer className={styles.footer}>
-            <ul className={styles.footerList}>
-                {pageLinks.map((link, index) => (
-                    <li key={index} className={styles.footerItem}>
-                        <Link href={link.href} className={styles.footerLink}>
-                            {link.image && (
-                                <Image
-                                    src={link.image}
-                                    alt={link.name}
-                                    width={70}
-                                    height={70}
-                                    className="footerIcon"
-                                />
-                            )}
-
-                            {link.icon}
-                        </Link>
-                    </li>
-                ))}
-            </ul>
-        </footer>
-    );
+  return (
+    <FooterContainer>
+      <Link href="/ListPages">
+        <StyledCarrotIcon icon={faCarrot} />
+      </Link>
+      <Link href="/AddItem">
+        <StyledCirclePlusIcon icon={faCirclePlus} />
+      </Link>
+    </FooterContainer>
+  );
 };
 
 export default Footer;
