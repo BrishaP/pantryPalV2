@@ -323,12 +323,12 @@ export default function Home() {
                     {/* <StyledCategoryInput> */}
                         <Field as="select" name="category" id="category" style={{ display: "block" }}>
                         <option value="" label="Select a category">Select a category</option>
-                        <option value="fruits" label="Fruits">Fruits</option>
-                        <option value="vegetables" label="Vegetables">Vegetables</option>
                         <option value="dairy" label="Dairy">Dairy</option>
+                        <option value="produce" label="Produce">Produce</option>
                         <option value="meat" label="Meat">Meat</option>
-                        <option value="baking" label="Baking">Baking</option>
-                        <option value="snacks" label="Snacks">Snacks</option>
+                        <option value="pantry" label="Pantry">Pantry</option>
+                        <option value="fish" label="fish">Fish</option>
+                        <option value="bakery" label="bakery">Bakery</option>
                         <option value="other" label="Other">Other</option>
                         </Field>
                     {/* </StyledCategoryInput> */}
