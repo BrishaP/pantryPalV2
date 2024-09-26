@@ -224,11 +224,11 @@ export default function Home() {
     setSelectedFood(null);
   };
 
-  const handleDelete = async () => {
+const handleDelete = async () => {
     if (!selectedFood) return;
   
     try {
-      const response = await fetch('/api/route', {
+      const response = await fetch('/api/food-items', { // Ensure this matches your route
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
