@@ -234,13 +234,13 @@ export default function Home() {
 
   const getCategoryImage = (category) => {
     const images = {
-      Meat: "/images/meat.png",
-      Fish: "/images/fish.png",
-      Dairy: "/images/dairy.png",
-      Produce: "/images/produce.png",
-      Bakery: "/images/bakery.png",
-      Pantry: "/images/pantry.png",
-      Other: "/images/other.png",
+      meat: "/images/meat.png",
+      fish: "/images/fish.png",
+      dairy: "/images/dairy.png",
+      produce: "/images/produce.png",
+      bakery: "/images/bakery.png",
+      pantry: "/images/pantry.png",
+      other: "/images/other.png",
     };
     return images[category] || images["Other"];
   };
@@ -327,7 +327,7 @@ export default function Home() {
                         <option value="produce" label="Produce">Produce</option>
                         <option value="meat" label="Meat">Meat</option>
                         <option value="pantry" label="Pantry">Pantry</option>
-                        <option value="fish" label="fish">Fish</option>
+                        <option value="fish" label="Fish">Fish</option>
                         <option value="bakery" label="bakery">Bakery</option>
                         <option value="other" label="Other">Other</option>
                         </Field>
