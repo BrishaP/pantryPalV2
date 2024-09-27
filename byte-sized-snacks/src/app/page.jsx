@@ -244,7 +244,7 @@ export default function Home() {
     if (selectedFood) {
       setSelectedFood({
         ...selectedFood,
-        quantity: Math.max(0, selectedFood.quantity + change),
+        quantity: Math.max(1, selectedFood.quantity + change),
       });
     }
   };
