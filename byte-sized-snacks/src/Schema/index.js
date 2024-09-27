@@ -17,16 +17,16 @@ const textPattern = /^[A-Za-z]+$/;
 export const signupSchema = Yup.object().shape({
 
     name: Yup.string()
-         .transform(value => {
-            if (value) {
-                return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
-            }
-            return value;
-        })
-        
-        .min(3)
-        .max(15)
-        .matches(textPattern, 'Name can only contain letters')
+    .transform(value => {
+        if (value) {
+            const trimmedValue = value.trim();
+            return trimmedValue.charAt(0).toUpperCase() + trimmedValue.slice(1).toLowerCase();
+        }
+        return value;
+    })
+    .min(3, 'Name must be at least 3 characters')
+    .max(25, 'Name must be at most 25 characters')
+    .matches(textPattern, 'Name can only contain letters and spaces')
     .required('Name is required'),
     
 

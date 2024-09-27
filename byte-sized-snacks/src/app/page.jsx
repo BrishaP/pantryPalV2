@@ -146,6 +146,8 @@ export default function Home() {
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     );
 
+    
+
     const fetchFoodItems = async () => {
       const { data, error } = await supabase
         .from("food_inventory")
@@ -157,7 +159,19 @@ export default function Home() {
       } else {
         console.log("Fetched food items:", data); // Log the fetched data
         setFoodItems(data);
+        
+        checkExpiringItems(data);
       }
+    };
+
+    const checkExpiringItems = (data) => {
+      data.forEach((item) => {
+        const { isExpiringSoon } = expiryStatus(item.expiry_date);
+        if (isExpiringSoon) {
+          const notifyD = () => toast(`${item.name} expires soon`, { containerId: "D" });
+          notifyD();
+        }
+      });
     };
 
     fetchFoodItems();
@@ -179,7 +193,11 @@ export default function Home() {
     };
   }, []);
 
-  const notify = () => toast("Successfully Submitted!");
+  const notifyA = () => toast("Successfully Submitted!", {containerId: "A"});
+  const notifyB = () => toast("Successfully Edited!", {containerId: "B"});
+  const notifyC = () => toast("Successfully Deleted!", {containerId: "C"});
+  
+  
 
   const onSubmit = async (values, actions) => {
     console.log("Submitting values:", values);
@@ -211,7 +229,7 @@ export default function Home() {
       });
 
       actions.resetForm();
-      notify();
+      notifyA();
     } catch (error) {
       console.error("Error adding food item:", error);
     }
@@ -230,6 +248,7 @@ export default function Home() {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     console.log("handleEditSubmit");
+    notifyB();
   
     if (!selectedFood) return;
   
@@ -278,6 +297,8 @@ export default function Home() {
   
       if (response.ok) {
         console.log(result.message);
+        notifyC();
+
         setSelectedFood(null);
         // Optionally, refresh the food items list here
       } else {
@@ -311,13 +332,21 @@ export default function Home() {
     return images[category] || images["other"];
   };
 
+
   return (
     <div className="container">
+
+
       <h1>Food Expiry Tracker</h1>
+      <div className="toastcontainer"><ToastContainer containerId="B"/></div>
+      <div className="toastcontainer"><ToastContainer containerId="C"/></div>
+      <div className="toastcontainer"><ToastContainer containerId="D"/></div>
+
       <ScrollArea className="scrollArea">
         <div className="foodGrid">
         {foodItems.map((item) => {
   const { statusText, isExpiringSoon } = expiryStatus(item.expiry_date);
+
   return (
     <Card
       key={item.item_id}
@@ -424,7 +453,7 @@ export default function Home() {
                             Submit
                         </SubmitButton>
                         
-                          <div className="toastcontainer"><ToastContainer /></div>
+                          <div className="toastcontainer"><ToastContainer containerId="A"/></div>
                         
         
                 
@@ -541,6 +570,8 @@ export default function Home() {
               <Button className="closeButton" type="submit">
                 Save
               </Button>
+
+
             </form>
           </div>
         </div>
