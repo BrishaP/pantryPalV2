@@ -10,7 +10,7 @@ const initialValues = {
 };
 
 // Define the regex pattern as a constant
-const textPattern = /^[A-Za-z]+$/;
+const textPattern = /^[a-zA-Z\s]*$/;
 
 // Define the validation schema
 

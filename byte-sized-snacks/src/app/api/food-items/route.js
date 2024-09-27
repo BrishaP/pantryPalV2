@@ -25,7 +25,6 @@ export async function GET() {
   }
 }
 
-
 export async function POST(request) {
   try {
     const { name, category, expiry_date, quantity } = await request.json();

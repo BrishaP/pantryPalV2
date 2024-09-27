@@ -146,8 +146,6 @@ export default function Home() {
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     );
 
-    
-
     const fetchFoodItems = async () => {
       const { data, error } = await supabase
         .from("food_inventory")
@@ -197,10 +195,16 @@ export default function Home() {
   const notifyB = () => toast("Successfully Edited!", {containerId: "B"});
   const notifyC = () => toast("Successfully Deleted!", {containerId: "C"});
   
-  
+  const capitalizeName = (name) => {
+    if (!name) return '';
+    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+  };
 
   const onSubmit = async (values, actions) => {
-    console.log("Submitting values:", values);
+
+    values.name = values.name.trim();
+    values.name = capitalizeName(values.name);
+
     try {
       const response = await fetch("/api/food-items", {
         method: "POST",
@@ -464,11 +468,6 @@ export default function Home() {
         </Container>
 
             
-
-
-
-
-
           </div>
         </div>
       )}
