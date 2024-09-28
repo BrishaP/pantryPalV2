@@ -1,6 +1,9 @@
 # Smart Pantry: Tracking Food, Reducing Waste with Expiry Tracking
 
 ## Amazon Press Release: Smart Pantry
+[Presentation](https://docs.google.com/presentation/d/1q_MDmbxcpNQm78qNm_3VOxunRQNbt40XP6UUbKRSOnw/edit?usp=sharing)
+
+[Try it now!](https://food-waste-app-khaki.vercel.app/)
 
 ### Headline:
 **Introducing Smart Pantry: Your Digital Companion for Food Inventory, Expiry Tracking, and Reducing Waste**
