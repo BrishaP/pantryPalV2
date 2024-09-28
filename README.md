@@ -5,6 +5,8 @@
 
 [Try it now!](https://food-waste-app-khaki.vercel.app/)
 
+[View the interactive prototype](https://www.figma.com/proto/yEMeeHYMKle7HhVDOlBJyW/SmartFridge?t=PnW5kfFCaWTwMjI2-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&node-id=2023-318)
+
 ### Headline:
 **Introducing Smart Pantry: Your Digital Companion for Food Inventory, Expiry Tracking, and Reducing Waste**
 
